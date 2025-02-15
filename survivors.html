@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Survivor</title>
+  <link rel="stylesheet" href="survivor.css?v=wafawfehwefwwfaweffweffwaefawef" type="text/css">
+  <script type="text/javascript" src="survivor.js?v=awefawef"></script>
+</head>
+<body>
+
+  <div>
+    <input type="text" id="db-selector" name="db-selector">
+  </div>
+
+  <div class="header-image">
+    <img src="https://upload.wikimedia.org/wikipedia/en/7/76/Survivor_47_logo.webp" alt="Survivor 47 Logo">
+  </div>
+
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="standings.html">Standings</a></li>
+        <li><a href="episodes.html">Episodes</a></li>
+        <li><a href="tribes.html">Tribes</a></li>
+        <li><a class="active" href="survivors.html">Survivors</a></li>
+        <li><a href="players.html">Players</a></li>
+        <li><a href="vote.html">Vote</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+
+    <div class="vertical-nav">
+      <ul id="survivor-toc">
+      </ul>
+    </div>
+
+    <div class="content-with-vertical-nav">
+      <h1>Survivors</h1>
+
+      <div id="survivor-list"></div>
+
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    // Execute on page load
+    window.onload = function() {
+        HandleDbSelection();
+
+        GetEvents()
+            .then(data => {
+                // Process the fetched JSON data
+                console.log(data);
+                const score_stream = GenerateScoreStream(data);
+                const survivor_statuses = GetSurvivorStatuses(data);
+                console.log(score_stream);
+                var survivor_list = document.getElementById("survivor-list");
+                var survivor_toc = document.getElementById("survivor-toc");
+                for (var i in all_survivors) {
+                    AddSurvivorHtml(i, score_stream, survivor_statuses, survivor_list, survivor_toc);
+                }
+            });
+    };
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  border-collapse: collapse;
+}
+
+th {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+th > div {
+  transform: 
+    /* Magic Numbers */
+    translate(25px, 51px)
+    /* 45 is really 360 - 45 */
+    rotate(315deg);
+  width: 30px;
+}
+th > div > span {
+  border-bottom: 1px solid #ccc;
+  padding: 5px 10px;
+}
+</style>
+</head>
+<body>
+
+<h2>Rotated Table Headers</h2>
+
+<table>
+  <tr>
+    <th>Column 1</th>
+    <th><div><span>Column 2</span></div></th>
+    <th><div><span>Column 3</span></div></th>
+  </tr>
+  <tr>
+    <td>Data 1</td>
+    <td>Data 2</td>
+    <td>Data 3</td>
+  </tr>
+  <tr>
+    <td>Data 1</td>
+    <td>Data 2</td>
+    <td>Data 3</td>
+  </tr>
+</table>
+
+</body>
+</html>

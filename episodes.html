@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Survivor</title>
+  <link rel="stylesheet" href="survivor.css?v=awwewfawefwafwafawfawef" type="text/css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="text/javascript" src="survivor.js?v=wafwefaewfawf"></script>
+</head>
+<body>
+  <div>
+    <input type="text" id="db-selector" name="db-selector">
+  </div>
+
+  <div class="header-image">
+    <img src="https://upload.wikimedia.org/wikipedia/en/7/76/Survivor_47_logo.webp" alt="Survivor 47 Logo">
+  </div>
+
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="standings.html">Standings</a></li>
+        <li><a class="active" href="episodes.html">Episodes</a></li>
+        <li><a href="tribes.html">Tribes</a></li>
+        <li><a href="survivors.html">Survivors</a></li>
+        <li><a href="players.html">Players</a></li>
+        <li><a href="vote.html">Vote</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+
+    <div class="vertical-nav">
+      <ul id="episode-toc">
+      </ul>
+    </div>
+
+    <div class="content-with-vertical-nav">
+      <h1>Episodes</h1>
+
+      <div id="episode-list"></div>
+
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    // Execute on page load
+    window.onload = function() {
+        HandleDbSelection();
+
+        GetEvents()
+            .then(data => {
+                // Process the fetched JSON data
+                console.log(data);
+                const score_stream = GenerateScoreStream(data);
+                const episode_metadatas = GetEpisodeMetadatas(data);
+                const pre_merge_votes = GeneratePreMergeVoteOutPredictions(data);
+                const post_merge_votes = GeneratePostMergeVoteOutPredictions(data);
+                console.log(score_stream);
+                console.log(episode_metadatas);
+                var episode_list = document.getElementById("episode-list");
+                var episode_toc = document.getElementById("episode-toc");
+                for (const [number, metadata] of episode_metadatas) {
+                    AddEpisodeHtml(number, score_stream, episode_metadatas, pre_merge_votes, post_merge_votes, episode_list, episode_toc);
+                }
+                ActivateCollapsibles();
+            });
+    };
+  </script>
+
+</body>
+</html>

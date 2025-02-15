@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Survivor</title>
+  <link rel="stylesheet" href="survivor.css?v=wafawiuhiuhfawfewwfawefwafwefehwefwwafawfwafeewfweffwaefawef" type="text/css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="text/javascript" src="survivor.js?v=wfwwfewafe"></script>
+</head>
+<body>
+
+  <div>
+    <input type="text" id="db-selector" name="db-selector">
+  </div>
+
+  <div class="header-image">
+    <img src="https://upload.wikimedia.org/wikipedia/en/7/76/Survivor_47_logo.webp" alt="Survivor 47 Logo">
+  </div>
+
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="standings.html">Standings</a></li>
+        <li><a href="episodes.html">Episodes</a></li>
+        <li><a href="tribes.html">Tribes</a></li>
+        <li><a href="survivors.html">Survivors</a></li>
+        <li><a class="active" href="players.html">Players</a></li>
+        <li><a href="vote.html">Vote</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+
+    <div class="vertical-nav">
+      <ul id="player-toc">
+      </ul>
+    </div>
+
+    <div class="content-with-vertical-nav">
+      <h1>Players</h1>
+
+      <div id="player-list"></div>
+
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    // Execute on page load
+    window.onload = function() {
+        HandleDbSelection();
+
+        GetEvents()
+            .then(data => {
+                // Process the fetched JSON data
+                const score_stream = GenerateScoreStream(data);
+                const survivor_statuses = GetSurvivorStatuses(data);
+                const pre_merge_votes = GeneratePreMergeVoteOutPredictions(data);
+                const post_merge_votes = GeneratePostMergeVoteOutPredictions(data);
+                const [standings, table] = GenerateStandings(data, score_stream);
+                console.log("standings", standings);
+                var player_list = document.getElementById("player-list");
+                var player_toc = document.getElementById("player-toc");
+                for (var i in all_players) {
+                    AddPlayerHtml(i, score_stream, survivor_statuses, pre_merge_votes, post_merge_votes, standings, player_list, player_toc);
+                }
+                ActivateCollapsibles();
+                console.log();
+            });
+    };
+  </script>
+
+</body>
+</html>

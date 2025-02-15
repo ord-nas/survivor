@@ -1,0 +1,513 @@
+/* Basic CSS styling */
+body {
+  font-family: sans-serif;
+  background-color: #e0f0e0; /* Light green background */
+}
+
+.container {
+  width: 1000px;
+  margin: 0 auto; /* Center the container */
+}
+
+/* Navigation Bar Styling */
+nav {
+  position: sticky; /* Make the nav bar sticky */
+  top: 0; /* Stick it to the top */
+  z-index: 10; /* Ensure it stays on top of other elements */
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  text-align: center; /* Center the nav items */
+}
+
+li {
+  display: inline-block; /* Make list items inline-block to center them */
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #04AA6D; /* Example active color */
+}
+
+/* Vertical Navigation Bar */
+.vertical-nav {
+  float: left;
+  width: 20%; /* Adjust as needed */
+  padding: 20px;
+  padding-left: 0px; /* Added padding-left */
+  padding-top: 5px; /* Added padding-top */
+  position: sticky; /* Make the vertical nav sticky */
+  top: 44px; /* Adjust this value to position it below the horizontal nav */
+  z-index: 9; /* Ensure it's below the horizontal nav */
+}
+
+.vertical-nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.vertical-nav li a {
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  min-width: 100px;
+}
+
+/* Other styles */
+.content {
+  padding: 20px;
+}
+
+.content-with-vertical-nav {
+  padding: 20px;
+  padding-top: 10px;
+  margin-left: 20%; /* Adjust as needed to match vertical nav width */
+}
+
+/* Center the image */
+.header-image {
+  text-align: center;
+}
+
+.item-container {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+.item-container img {
+  margin-right: 20px;
+}
+
+.episode-img {
+  width: 300px;
+}
+
+.survivor-img {
+  width: 200px;
+}
+
+.item-container p {
+  margin-top: 0px;
+}
+
+.event-table {
+  margin-top: 10px; /* Adjust top margin as needed */
+  margin-bottom: 10px; /* Adjust bottom margin as needed */
+}
+
+.event-table td, .event-table th {
+  padding: 10px; /* Adjust padding as needed */
+}
+
+.event-table tr:hover {
+  background-color: #bae0ba;
+}
+
+.episode-table td:nth-child(1) {
+  min-width: 250px;
+}
+
+.episode-table td:nth-child(2) {
+  min-width: 100px;
+}
+
+.points-positive {
+  font-weight: bold;
+  color: green;
+}
+
+.points-negative {
+  font-weight: bold;
+  color: red;
+}
+
+.points-zero {
+  font-weight: bold;
+  color: black;
+}
+
+.informational {
+  text-align: center;
+  font-style: italic;
+}
+
+/* .rotated-text { */
+/*   transform: rotate(-90deg); */
+/*   display: inline-block; */
+/*   /\* Additional styling to improve readability *\/ */
+/*   white-space: nowrap; /\* Prevent text from wrapping *\/ */
+/* } */
+
+/* th.rotate { */
+/*   border-collapse: collapse; */
+/*   height: 140px; */
+/*   white-space: nowrap; */
+/* } */
+
+/* th.rotate > div { */
+/*   transform: */
+/*     translate(25px, 51px) */
+/*     rotate(315deg); */
+/*   width: 30px; */
+/* } */
+
+/* th.rotate > div > span { */
+/*   border-bottom: 1px solid #ccc; */
+/*   padding: 5px 10px; */
+/* } */
+
+/* th, td, table{ */
+/*   border:solid 1px; */
+/* } */
+
+/* th.rotate > div { */
+/*   position: absolute; */
+/*   transform: rotate(-90deg); */
+/* } */
+
+/* th.rotate { */
+/*   max-width: 50px; */
+/*   height: 85px; */
+/*   line-height: 14px; */
+/*   padding-bottom: 20px; */
+/*   text-align: inherit; */
+/* } */
+
+/* th.rotate { */
+/*   height: 350px; */
+/*   column-width: 20px; */
+/*   text-align: left; */
+/*   white-space: nowrap; */
+/*   transform: rotate(270deg); */
+/* } */
+
+.standings-table {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.standings-table th {
+  border: 1px solid black;
+  border-collapse: collapse;
+  vertical-align: bottom;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.standings-table td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+  padding: 5px;
+}
+
+.standings-table tr:hover {
+  background-color: #bae0ba;
+}
+
+.standings-table th:nth-child(4), .standings-table td:nth-child(4) {
+  border-right: 3px solid black;
+}
+
+.standings-table th:nth-child(9), .standings-table td:nth-child(9) {
+  border-right: 3px solid black;
+}
+
+.standings-table tr:nth-child(1) {
+  background-color: #bae0ba;
+  border-bottom: 3px solid black;
+}
+
+.vote-table {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.vote-table th {
+  border: 1px solid black;
+  border-collapse: collapse;
+  vertical-align: bottom;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.vote-table td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+  padding: 5px;
+}
+
+.vote-table tr:hover {
+  background-color: #bae0ba;
+}
+
+.vote-table tr:nth-child(1) {
+  background-color: #bae0ba;
+  border-bottom: 3px solid black;
+}
+
+th.rotate {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  max-height: 100px;
+  text-align: left;
+}
+
+.missing-sole-survivor {
+  background-color: #BEBEBE;
+}
+
+.eliminated-sole-survivor {
+  text-decoration: line-through;
+  background-color: #BEBEBE;
+}
+
+.standings-positive {
+  font-weight: bold;
+  background-color: #50C878;
+}
+
+.standings-negative {
+  font-weight: bold;
+  background-color: red; // FIXME
+}
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+.standings-chart-container {
+  width: 1000px;
+  height: 1000px;
+}
+
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active-collapsible, .collapsible:hover {
+  background-color: #555;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: white;
+  font-weight: bold;
+  float: left;
+  margin-right: 10px;
+}
+
+.active-collapsible:after {
+  content: "\2212";
+}
+
+.collapsible-content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+
+.tribe-container {
+  padding:20px;
+  border-radius: 25px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.headshot-container {
+  min-width: 140px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+.headshot-container.selectable:hover {
+  background-color: #bae0ba;
+}
+
+.headshot-container.selected {
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 5px;
+  padding-bottom: 0px;
+  border: 5px solid green;
+}
+
+.headshot-container p {
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.headshot {
+  display: block;
+  background-image: url("imgs/headshots.webp");
+  height:130px;
+  width:104px;
+  border: 2px solid black;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.headshot-caroline {
+  background-position:-52px -73px;
+}
+
+.headshot-gabe {
+  background-position:-52px -203.5px;
+}
+
+.headshot-kyle {
+  background-position:-52px -334px;
+}
+
+.headshot-sue {
+  background-position:-52px -466px;
+}
+
+.headshot-tk {
+  background-position:-52px -595.5px;
+}
+
+.headshot-tiyana {
+  background-position:-52px -725.5px;
+}
+
+.headshot-andy {
+  background-position:-410px -73px;
+}
+
+.headshot-anika {
+  background-position:-410px -203.5px;
+}
+
+.headshot-jon {
+  background-position:-409.5px -334px;
+}
+
+.headshot-rachel {
+  background-position:-410px -466px;
+}
+
+.headshot-sam {
+  background-position:-410px -596.5px;
+}
+
+.headshot-sierra {
+  background-position:-410px -726.5px;
+}
+
+.headshot-aysha {
+  background-position:-767px -73px;
+}
+
+.headshot-genevieve {
+  background-position:-767px -203.5px;
+}
+
+.headshot-kishan {
+  background-position:-767px -334px;
+}
+
+.headshot-rome {
+  background-position:-767px -466px;
+}
+
+.headshot-sol {
+  background-position:-767px -596.5px;
+}
+
+.headshot-teeny {
+  background-position:-767px -725.5px;
+}
+
+.vote-button {
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 24px;
+  transition-duration: 0.2s;
+  cursor: pointer;
+  background-color: #04AA6D;
+  color: white;
+  border: 2px solid #04AA6D;
+  margin: 0 auto;
+}
+
+.vote-button:hover {
+  background-color: white;
+  color: black;
+}

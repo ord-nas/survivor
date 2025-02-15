@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Survivor</title>
+  <link rel="stylesheet" href="survivor.css?v=wawwfawefwaAwwafawefdwaefaweefefwaefawawef" type="text/css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="text/javascript" src="survivor.js?v=awefawef"></script>
+</head>
+
+<body>
+
+  <div>
+    <input type="text" id="db-selector" name="db-selector">
+  </div>
+
+  <div class="header-image">
+    <img src="https://upload.wikimedia.org/wikipedia/en/7/76/Survivor_47_logo.webp" alt="Survivor 47 Logo">
+  </div>
+
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="standings.html">Standings</a></li>
+        <li><a href="episodes.html">Episodes</a></li>
+        <li><a class="active" href="tribes.html">Tribes</a></li>
+        <li><a href="survivors.html">Survivors</a></li>
+        <li><a href="players.html">Players</a></li>
+        <li><a href="vote.html">Vote</a></li>
+        <li><a href="admin.html">Admin</a></li>
+     </ul>
+    </nav>
+
+    <div class="content">
+      <h1>Tribes</h1>
+      <div id="tribe-list">
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    // Execute on page load
+    window.onload = function() {
+        HandleDbSelection();
+
+        GetEvents()
+            .then(data => {
+                // Process the fetched JSON data
+                const score_stream = GenerateScoreStream(data);
+                const survivor_statuses = GetSurvivorStatuses(data);
+                const list = document.getElementById("tribe-list");
+                AppendTribeDivs(data, score_stream, survivor_statuses, list);
+            });
+    };
+  </script>
+
+</body>
+
+</html>
