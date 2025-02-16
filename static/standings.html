@@ -3,9 +3,9 @@
 
 <head>
   <title>Survivor</title>
-  <link rel="stylesheet" href="survivor.css?v=Uauub7Y14uDRR9goEDx8ydGINZDi7Qql" type="text/css">
+  <link rel="stylesheet" href="survivor.css?v=dm7axMsWwBt12dQQ1j42hq9FMZAV49id" type="text/css">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="text/javascript" src="survivor.js?v=Uauub7Y14uDRR9goEDx8ydGINZDi7Qql"></script>
+  <script type="text/javascript" src="survivor.js?v=dm7axMsWwBt12dQQ1j42hq9FMZAV49id"></script>
 </head>
 
 <body>
@@ -104,10 +104,10 @@
         return DrawChartInternal;
     })();
 
-    function UpdateStandings(events, score_stream) {
+    function UpdateStandings(state, score_stream) {
         var slider = document.getElementById("episode-slider");
         const max_episode = slider.value;
-        const [standings, table] = GenerateStandings(events, score_stream, max_episode);
+        const [standings, table] = GenerateStandings(state, score_stream, max_episode);
         var standings_container = document.getElementById("standings-container");
         standings_container.innerHTML = "";
         standings_container.appendChild(table);
@@ -119,19 +119,19 @@
     window.onload = function() {
         HandleDbSelection();
 
-        GetEvents()
-            .then(data => {
+        GetState()
+            .then(state => {
                 // Process the fetched JSON data
-                const score_stream = GenerateScoreStream(data);
-                const episodes = data.map(e => "Episode" in e ? e.Episode : 0);
+                const score_stream = GenerateScoreStream(state);
+                const episodes = state.events.map(e => "Episode" in e ? e.Episode : 0);
                 const num_episodes = Math.max(...episodes);
                 var slider = document.getElementById("episode-slider");
                 slider.max = num_episodes;
                 slider.value = num_episodes;
                 slider.oninput = function() {
-                    UpdateStandings(data, score_stream);
+                    UpdateStandings(state, score_stream);
                 };
-                UpdateStandings(data, score_stream);
+                UpdateStandings(state, score_stream);
             });
     };
   </script>

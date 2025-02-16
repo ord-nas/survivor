@@ -60,5 +60,210 @@
         {"Episode": 9, "EventName": "Voting closed"},
         {"Episode": 9, "EventName": "Voted out", "Survivor": "Kishan"},
         {"Episode": 10, "EventName": "Voting open"}
+    ],
+    "survivors": [
+        {
+            "Name": "Caroline",
+            "FullName": "Caroline Vidmar",
+            "Tribe": "Blue",
+            "Age": 27,
+            "Hometown": "Palos Verdes, CA",
+            "Residence": "Chicago, IL",
+            "Occupation": "Strategy Consultant",
+            "ImageSrc": "imgs/caroline.webp",
+            "HeadshotClass": "headshot-caroline"
+        },
+        {
+            "Name": "Gabe",
+            "FullName": "Gabe Ortis",
+            "Tribe": "Blue",
+            "Age": 26,
+            "Hometown": "Baltimore, MD",
+            "Residence": "Baltimore, MD",
+            "Occupation": "Radio Show Host",
+            "ImageSrc": "imgs/gabe.webp",
+            "HeadshotClass": "headshot-gabe"
+        },
+        {
+            "Name": "Kyle",
+            "FullName": "Kyle Ostwald",
+            "Tribe": "Blue",
+            "Age": 31,
+            "Hometown": "Cheboygan, MI",
+            "Residence": "Cheboygan, MI",
+            "Occupation": "Construction Worker",
+            "ImageSrc": "imgs/kyle.webp",
+            "HeadshotClass": "headshot-kyle"
+        },
+        {
+            "Name": "Sue",
+            "FullName": "Sue Smey",
+            "Tribe": "Blue",
+            "Age": 59,
+            "Hometown": "Kirkwood, NY",
+            "Residence": "Putnam Valley, NY",
+            "Occupation": "Flight School Owner",
+            "ImageSrc": "imgs/sue.webp",
+            "HeadshotClass": "headshot-sue"
+        },
+        {
+            "Name": "TK",
+            "FullName": "Terran \"TK\" Foster",
+            "Tribe": "Blue",
+            "Age": 31,
+            "Hometown": "Prince George's County, MD",
+            "Residence": "Upper Marlboro, MD",
+            "Occupation": "Athlete Marketing Manager",
+            "ImageSrc": "imgs/tk.webp",
+            "HeadshotClass": "headshot-tk"
+        },
+        {
+            "Name": "Tiyana",
+            "FullName": "Tiyana Hallums",
+            "Tribe": "Blue",
+            "Age": 27,
+            "Hometown": "Aiea, HI",
+            "Residence": "Aiea, HI",
+            "Occupation": "Flight Attendant",
+            "ImageSrc": "imgs/tiyana.webp",
+            "HeadshotClass": "headshot-tiyana"
+        },
+        {
+            "Name": "Andy",
+            "FullName": "Andy Rueda",
+            "Tribe": "Yellow",
+            "Age": 31,
+            "Hometown": "Buffalo, NY",
+            "Residence": "Brooklyn, NY",
+            "Occupation": "AI Research Assistant",
+            "ImageSrc": "imgs/andy.webp",
+            "HeadshotClass": "headshot-andy"
+        },
+        {
+            "Name": "Anika",
+            "FullName": "Anika Dhar",
+            "Tribe": "Yellow",
+            "Age": 26,
+            "Hometown": "Santa Rosa, CA",
+            "Residence": "Los Angeles, CA",
+            "Occupation": "Marketing Manager",
+            "ImageSrc": "imgs/anika.webp",
+            "HeadshotClass": "headshot-anika"
+        },
+        {
+            "Name": "Jon",
+            "FullName": "Jon Lovett",
+            "Tribe": "Yellow",
+            "Age": 42,
+            "Hometown": "Long Island, NY",
+            "Residence": "Los Angeles, CA",
+            "Occupation": "Podcast Host",
+            "ImageSrc": "imgs/jon.webp",
+            "HeadshotClass": "headshot-jon"
+        },
+        {
+            "Name": "Rachel",
+            "FullName": "Rachel LaMont",
+            "Tribe": "Yellow",
+            "Age": 34,
+            "Hometown": "Dexter, MI",
+            "Residence": "Southfield, MI",
+            "Occupation": "Graphic Designer",
+            "ImageSrc": "imgs/rachel.webp",
+            "HeadshotClass": "headshot-rachel"
+        },
+        {
+            "Name": "Sam",
+            "FullName": "Sam Phalen",
+            "Tribe": "Yellow",
+            "Age": 24,
+            "Hometown": "Schaumburg, IL",
+            "Residence": "Nashville, TN",
+            "Occupation": "Sports Reporter",
+            "ImageSrc": "imgs/sam.webp",
+            "HeadshotClass": "headshot-sam"
+        },
+        {
+            "Name": "Sierra",
+            "FullName": "Sierra Wright",
+            "Tribe": "Yellow",
+            "Age": 27,
+            "Hometown": "Wilmington, DE",
+            "Residence": "Phoenixville, PA",
+            "Occupation": "Nurse",
+            "ImageSrc": "imgs/sierra.webp",
+            "HeadshotClass": "headshot-sierra"
+        },
+        {
+            "Name": "Aysha",
+            "FullName": "Aysha Welch",
+            "Tribe": "Red",
+            "Age": 32,
+            "Hometown": "DeSoto, TX",
+            "Residence": "Houston, TX",
+            "Occupation": "IT Consultant",
+            "ImageSrc": "imgs/aysha.webp",
+            "HeadshotClass": "headshot-aysha"
+        },
+        {
+            "Name": "Genevieve",
+            "FullName": "Genevieve Mushaluk",
+            "Tribe": "Red",
+            "Age": 33,
+            "Hometown": "Winnipeg, Manitoba",
+            "Residence": "Winnipeg, Manitoba",
+            "Occupation": "Corporate Lawyer",
+            "ImageSrc": "imgs/genevieve.webp",
+            "HeadshotClass": "headshot-genevieve"
+        },
+        {
+            "Name": "Kishan",
+            "FullName": "Kishan Patel",
+            "Tribe": "Red",
+            "Age": 28,
+            "Hometown": "Fullerton, CA",
+            "Residence": "San Francisco, CA",
+            "Occupation": "ER Doctor",
+            "ImageSrc": "imgs/kishan.webp",
+            "HeadshotClass": "headshot-kishan"
+        },
+        {
+            "Name": "Rome",
+            "FullName": "Rome Cooney",
+            "Tribe": "Red",
+            "Age": 30,
+            "Hometown": "Corvallis, OR",
+            "Residence": "Phoenix, AX",
+            "Occupation": "E-Sports Commentator",
+            "ImageSrc": "imgs/rome.webp",
+            "HeadshotClass": "headshot-rome"
+        },
+        {
+            "Name": "Sol",
+            "FullName": "Solomon \"Sol\" Yi",
+            "Tribe": "Red",
+            "Age": 43,
+            "Hometown": "Del City, OK",
+            "Residence": "Norwalk, CT",
+            "Occupation": "Medical Device Sales",
+            "ImageSrc": "imgs/sol.webp",
+            "HeadshotClass": "headshot-sol"
+        },
+        {
+            "Name": "Teeny",
+            "FullName": "Teeny Chirichillo",
+            "Tribe": "Red",
+            "Age": 24,
+            "Hometown": "Manahawkin, NJ",
+            "Residence": "Manahawkin, NJ",
+            "Occupation": "Freelance Writer",
+            "ImageSrc": "imgs/teeny.webp",
+            "HeadshotClass": "headshot-teeny"
+        }
+    ],
+    "tribes": [
+        {"Name": "Red", "FullName": "Lavo", "Color": "#FAA0A0"},
+        {"Name": "Yellow", "FullName": "Gata", "Color": "#FFFAA0"},
+        {"Name": "Blue", "FullName": "Tuku", "Color": "#A7C7E7"}
     ]
 }

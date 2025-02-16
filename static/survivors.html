@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>Survivor</title>
-  <link rel="stylesheet" href="survivor.css?v=Uauub7Y14uDRR9goEDx8ydGINZDi7Qql" type="text/css">
-  <script type="text/javascript" src="survivor.js?v=Uauub7Y14uDRR9goEDx8ydGINZDi7Qql"></script>
+  <link rel="stylesheet" href="survivor.css?v=dm7axMsWwBt12dQQ1j42hq9FMZAV49id" type="text/css">
+  <script type="text/javascript" src="survivor.js?v=dm7axMsWwBt12dQQ1j42hq9FMZAV49id"></script>
 </head>
 <body>
 
@@ -46,17 +46,17 @@
     window.onload = function() {
         HandleDbSelection();
 
-        GetEvents()
-            .then(data => {
+        GetState()
+            .then(state => {
                 // Process the fetched JSON data
-                console.log(data);
-                const score_stream = GenerateScoreStream(data);
-                const survivor_statuses = GetSurvivorStatuses(data);
+                console.log(state);
+                const score_stream = GenerateScoreStream(state);
+                const survivor_statuses = GetSurvivorStatuses(state);
                 console.log(score_stream);
                 var survivor_list = document.getElementById("survivor-list");
                 var survivor_toc = document.getElementById("survivor-toc");
-                for (var i in all_survivors) {
-                    AddSurvivorHtml(i, score_stream, survivor_statuses, survivor_list, survivor_toc);
+                for (var i in state.survivors) {
+                    AddSurvivorHtml(state, i, score_stream, survivor_statuses, survivor_list, survivor_toc);
                 }
             });
     };

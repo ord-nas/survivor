@@ -1,210 +1,3 @@
-const tribe_info = new Map([
-  ["Red", {full_name: "Lavo", color: "#FAA0A0"}],
-  ["Yellow", {full_name: "Gata", color: "#FFFAA0"}],
-  ["Blue", {full_name: "Tuku", color: "#A7C7E7"}],
-]);
-
-// TODO FIXME
-const all_survivors = [
-  {
-    "name": "Caroline",
-    "full_name": "Caroline Vidmar",
-    "tribe": "Blue",
-    "age": 27,
-    "hometown": "Palos Verdes, CA",
-    "residence": "Chicago, IL",
-    "occupation": "Strategy Consultant",
-    "img": "imgs/caroline.webp",
-    "headshot_class": "headshot-caroline",
-  },
-  {
-    "name": "Gabe",
-    "full_name": "Gabe Ortis",
-    "tribe": "Blue",
-    "age": 26,
-    "hometown": "Baltimore, MD",
-    "residence": "Baltimore, MD",
-    "occupation": "Radio Show Host",
-    "img": "imgs/gabe.webp",
-    "headshot_class": "headshot-gabe",
-  },
-  {
-    "name": "Kyle",
-    "full_name": "Kyle Ostwald",
-    "tribe": "Blue",
-    "age": 31,
-    "hometown": "Cheboygan, MI",
-    "residence": "Cheboygan, MI",
-    "occupation": "Construction Worker",
-    "img": "imgs/kyle.webp",
-    "headshot_class": "headshot-kyle",
-  },
-  {
-    "name": "Sue",
-    "full_name": "Sue Smey",
-    "tribe": "Blue",
-    "age": 59,
-    "hometown": "Kirkwood, NY",
-    "residence": "Putnam Valley, NY",
-    "occupation": "Flight School Owner",
-    "img": "imgs/sue.webp",
-    "headshot_class": "headshot-sue",
-  },
-  {
-    "name": "TK",
-    "full_name": "Terran \"TK\" Foster",
-    "tribe": "Blue",
-    "age": 31,
-    "hometown": "Prince George's County, MD",
-    "residence": "Upper Marlboro, MD",
-    "occupation": "Athlete Marketing Manager",
-    "img": "imgs/tk.webp",
-    "headshot_class": "headshot-tk",
-  },
-  {
-    "name": "Tiyana",
-    "full_name": "Tiyana Hallums",
-    "tribe": "Blue",
-    "age": 27,
-    "hometown": "Aiea, HI",
-    "residence": "Aiea, HI",
-    "occupation": "Flight Attendant",
-    "img": "imgs/tiyana.webp",
-    "headshot_class": "headshot-tiyana",
-  },
-  {
-    "name": "Andy",
-    "full_name": "Andy Rueda",
-    "tribe": "Yellow",
-    "age": 31,
-    "hometown": "Buffalo, NY",
-    "residence": "Brooklyn, NY",
-    "occupation": "AI Research Assistant",
-    "img": "imgs/andy.webp",
-    "headshot_class": "headshot-andy",
-  },
-  {
-    "name": "Anika",
-    "full_name": "Anika Dhar",
-    "tribe": "Yellow",
-    "age": 26,
-    "hometown": "Santa Rosa, CA",
-    "residence": "Los Angeles, CA",
-    "occupation": "Marketing Manager",
-    "img": "imgs/anika.webp",
-    "headshot_class": "headshot-anika",
-  },
-  {
-    "name": "Jon",
-    "full_name": "Jon Lovett",
-    "tribe": "Yellow",
-    "age": 42,
-    "hometown": "Long Island, NY",
-    "residence": "Los Angeles, CA",
-    "occupation": "Podcast Host",
-    "img": "imgs/jon.webp",
-    "headshot_class": "headshot-jon",
-  },
-  {
-    "name": "Rachel",
-    "full_name": "Rachel LaMont",
-    "tribe": "Yellow",
-    "age": 34,
-    "hometown": "Dexter, MI",
-    "residence": "Southfield, MI",
-    "occupation": "Graphic Designer",
-    "img": "imgs/rachel.webp",
-    "headshot_class": "headshot-rachel",
-  },
-  {
-    "name": "Sam",
-    "full_name": "Sam Phalen",
-    "tribe": "Yellow",
-    "age": 24,
-    "hometown": "Schaumburg, IL",
-    "residence": "Nashville, TN",
-    "occupation": "Sports Reporter",
-    "img": "imgs/sam.webp",
-    "headshot_class": "headshot-sam",
-  },
-  {
-    "name": "Sierra",
-    "full_name": "Sierra Wright",
-    "tribe": "Yellow",
-    "age": 27,
-    "hometown": "Wilmington, DE",
-    "residence": "Phoenixville, PA",
-    "occupation": "Nurse",
-    "img": "imgs/sierra.webp",
-    "headshot_class": "headshot-sierra",
-  },
-  {
-    "name": "Aysha",
-    "full_name": "Aysha Welch",
-    "tribe": "Red",
-    "age": 32,
-    "hometown": "DeSoto, TX",
-    "residence": "Houston, TX",
-    "occupation": "IT Consultant",
-    "img": "imgs/aysha.webp",
-    "headshot_class": "headshot-aysha",
-  },
-  {
-    "name": "Genevieve",
-    "full_name": "Genevieve Mushaluk",
-    "tribe": "Red",
-    "age": 33,
-    "hometown": "Winnipeg, Manitoba",
-    "residence": "Winnipeg, Manitoba",
-    "occupation": "Corporate Lawyer",
-    "img": "imgs/genevieve.webp",
-    "headshot_class": "headshot-genevieve",
-  },
-  {
-    "name": "Kishan",
-    "full_name": "Kishan Patel",
-    "tribe": "Red",
-    "age": 28,
-    "hometown": "Fullerton, CA",
-    "residence": "San Francisco, CA",
-    "occupation": "ER Doctor",
-    "img": "imgs/kishan.webp",
-    "headshot_class": "headshot-kishan",
-  },
-  {
-    "name": "Rome",
-    "full_name": "Rome Cooney",
-    "tribe": "Red",
-    "age": 30,
-    "hometown": "Corvallis, OR",
-    "residence": "Phoenix, AX",
-    "occupation": "E-Sports Commentator",
-    "img": "imgs/rome.webp",
-    "headshot_class": "headshot-rome",
-  },
-  {
-    "name": "Sol",
-    "full_name": "Solomon \"Sol\" Yi",
-    "tribe": "Red",
-    "age": 43,
-    "hometown": "Del City, OK",
-    "residence": "Norwalk, CT",
-    "occupation": "Medical Device Sales",
-    "img": "imgs/sol.webp",
-    "headshot_class": "headshot-sol",
-  },
-  {
-    "name": "Teeny",
-    "full_name": "Teeny Chirichillo",
-    "tribe": "Red",
-    "age": 24,
-    "hometown": "Manahawkin, NJ",
-    "residence": "Manahawkin, NJ",
-    "occupation": "Freelance Writer",
-    "img": "imgs/teeny.webp",
-    "headshot_class": "headshot-teeny",
-  },
-];
 
 // TODO FIXME
 const all_players = [
@@ -432,7 +225,10 @@ function GetRubricEntry(event_name) {
 // * The set of players to award to
 // * The set of sole survivors to award to
 
-function GenerateScoreStream(events) {
+function GenerateScoreStream(state) {
+  const all_survivors = state.survivors;
+  const events = state.events;
+
   // Make a map of episode -> player -> survivors for vote out predictions.
   var episode_to_votes = new Map();
   for (const e of events) {
@@ -451,7 +247,7 @@ function GenerateScoreStream(events) {
   // Keep a set of active survivors.
   var active_survivors = new Set();
   for (const s of all_survivors) {
-    active_survivors.add(s.name);
+    active_survivors.add(s.Name);
   }
 
   // Keep a map of players to sole survivors.
@@ -460,7 +256,7 @@ function GenerateScoreStream(events) {
   // Keep a map of survivors to tribes.
   var survivors_to_tribes = new Map();
   for (const s of all_survivors) {
-    survivors_to_tribes.set(s.name, s.tribe);
+    survivors_to_tribes.set(s.Name, s.Tribe);
   }
 
   // Generate the score stream.
@@ -576,16 +372,19 @@ function GenerateScoreStream(events) {
   return score_stream;
 }
 
-function GetSurvivorStatuses(events) {
+function GetSurvivorStatuses(state) {
+  const events = state.events;
+  const all_survivors = state.survivors;
+
   // Keep a map of survivor to the players that selected them as sole survivors,
   // plus current tribe assignment.
   var survivors_to_status = new Map();
   for (const s of all_survivors) {
-    survivors_to_status.set(s.name, {
-      "survivor": s.name,
+    survivors_to_status.set(s.Name, {
+      "survivor": s.Name,
       "players": [],
       "player_to_selection_episode": new Map(),
-      "tribe": s.tribe,
+      "tribe": s.Tribe,
     });
   }
   for (const e of events) {
@@ -602,11 +401,14 @@ function GetSurvivorStatuses(events) {
   return survivors_to_status;
 }
 
-function GetSoleSurvivorInfo(events, max_episode=10000) {
+function GetSoleSurvivorInfo(state, max_episode=10000) {
+  const events = state.events;
+  const all_survivors = state.survivors;
+
   // Keep a set of active survivors.
   var active_survivors = new Set();
   for (const s of all_survivors) {
-    active_survivors.add(s.name);
+    active_survivors.add(s.Name);
   }
 
   // Keep a map of players to sole survivors.
@@ -636,14 +438,14 @@ function GetSoleSurvivorInfo(events, max_episode=10000) {
   return result;
 }
 
-function GetEvents() {
-  const url = '/list_events';
+function GetState() {
+  const url = '/state';
   return fetch(url)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        return response.json(); // Parse the response as JSON
+        return response.json();
       })
       .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
@@ -685,14 +487,16 @@ function AwardedCell(players) {
   return `<td>Awarded to ${PlayerList(players)}</td>`;
 }
 
-function GenerateEpisodeDiv(episode_number, score_stream, metadatas, pre_merge_votes, post_merge_votes) {
+function GenerateEpisodeDiv(state, episode_number, score_stream, metadatas, pre_merge_votes, post_merge_votes) {
+  const all_survivors = state.survivors;
+
   var score_items = score_stream.filter(s => s.db_event.Episode === episode_number);
   var metadata = metadatas.get(episode_number);
 
   const rows = score_items.map(s => `<tr><td>${s.display_text}</td>${PointsCell(s.points)}${AwardedCell(s.players)}</tr>`).join("\n");
 
   function PreMergeVoteTable() {
-    const tribes = Unique(all_survivors.map(s => s.tribe));
+    const tribes = Unique(all_survivors.map(s => s.Tribe));
     const tribe_headers = tribes.map(t => `<th>${t} Vote</th>`).join("\n");
     const episode_data = pre_merge_votes.get(episode_number);
     if (episode_data === undefined || episode_data === null) return null;
@@ -778,8 +582,8 @@ function GenerateEpisodeLink(episode_number) {
   return createNode('li', html);
 }
 
-function AddEpisodeHtml(episode_number, score_stream, metadatas, pre_merge_votes, post_merge_votes, list, toc) {
-  list.appendChild(GenerateEpisodeDiv(episode_number, score_stream, metadatas, pre_merge_votes, post_merge_votes));
+function AddEpisodeHtml(state, episode_number, score_stream, metadatas, pre_merge_votes, post_merge_votes, list, toc) {
+  list.appendChild(GenerateEpisodeDiv(state, episode_number, score_stream, metadatas, pre_merge_votes, post_merge_votes));
   toc.appendChild(GenerateEpisodeLink(episode_number));
   var canvas = document.getElementById(`vote-canvas-${episode_number}`);
   if (canvas === null || canvas === undefined) return;
@@ -820,26 +624,27 @@ function StatusHtml(status) {
 	  `<span class="points-positive">Still playing</span>`);
 }
 
-function GenerateSurvivorDiv(survivor_number, score_stream, survivor_statuses) {
+function GenerateSurvivorDiv(state, survivor_number, score_stream, survivor_statuses) {
+  const all_survivors = state.survivors;
   const survivor = all_survivors[survivor_number];
-  const status = survivor_statuses.get(survivor.name);
-  console.log(survivor_statuses, survivor, survivor.name);
-  var score_items = score_stream.filter(s => s.survivors.includes(survivor.name));
+  const status = survivor_statuses.get(survivor.Name);
+  console.log(survivor_statuses, survivor, survivor.Name);
+  var score_items = score_stream.filter(s => s.survivors.includes(survivor.Name));
   var total_score = score_items.reduce((accumulator, s) => accumulator + s.points, 0);
   const rows = score_items.map(s => `<tr><td>Episode ${s.db_event.Episode}</td><td>${s.display_text}</td>${PointsCell(s.points)}</tr>`).join("\n");
   const html = `
-              <h2 id="survivor${survivor_number}">${survivor.full_name}</h2>
+              <h2 id="survivor${survivor_number}">${survivor.FullName}</h2>
               <div class="item-container">
                 <img class="survivor-img"/>
                 <div>
-                  <p>Tribe: ${survivor.tribe}</p>
+                  <p>Tribe: ${survivor.Tribe}</p>
                   <p>Status: ${StatusHtml(status)}</p>
                   <p>Total points: ${PointsCell(total_score, container='span', include_plus=false)}</p>
                   <p>Sole Survivor for: ${PlayerList(status.players)}</p>
-                  <p>Age: ${survivor.age}</p>
-                  <p>Hometown: ${survivor.hometown}</p>
-                  <p>Residence: ${survivor.residence}</p>
-                  <p>Occupation: ${survivor.occupation}</p>
+                  <p>Age: ${survivor.Age}</p>
+                  <p>Hometown: ${survivor.Hometown}</p>
+                  <p>Residence: ${survivor.Residence}</p>
+                  <p>Occupation: ${survivor.Occupation}</p>
                 </div>
               </div>
               <table class="event-table survivor-table">
@@ -874,19 +679,20 @@ function GenerateSurvivorDiv(survivor_number, score_stream, survivor_statuses) {
       ctx.stroke();
     };
   }
-  img.src = survivor.img;
+  img.src = survivor.ImageSrc;
   return node;
 }
 
-function GenerateSurvivorLink(survivor_number) {
+function GenerateSurvivorLink(state, survivor_number) {
+  const all_survivors = state.survivors;
   const survivor = all_survivors[survivor_number];
-  const html = `<a href="#survivor${survivor_number}">${survivor.name}</a>`;
+  const html = `<a href="#survivor${survivor_number}">${survivor.Name}</a>`;
   return createNode('li', html);
 }
 
-function AddSurvivorHtml(survivor_number, score_stream, survivor_statuses, list, toc) {
-  list.appendChild(GenerateSurvivorDiv(survivor_number, score_stream, survivor_statuses));
-  toc.appendChild(GenerateSurvivorLink(survivor_number));
+function AddSurvivorHtml(state, survivor_number, score_stream, survivor_statuses, list, toc) {
+  list.appendChild(GenerateSurvivorDiv(state, survivor_number, score_stream, survivor_statuses));
+  toc.appendChild(GenerateSurvivorLink(state, survivor_number));
 }
 
 function GetSurvivorStatusForPlayer(survivor_statuses, player_name) {
@@ -909,16 +715,18 @@ function Unique(arr) {
   return result;
 }
 
-function SurvivorNumber(survivor) {
-  for (var i in all_survivors) {
-    if (all_survivors[i].name === survivor) {
-      return i;
+function SurvivorByName(state, name) {
+  const all_survivors = state.survivors;
+  for (var survivor of all_survivors) {
+    if (survivor.Name === name) {
+      return survivor;
     }
   }
-  return -1;
+  return null;
 }
 
-function GeneratePlayerDiv(player_number, score_stream, survivor_statuses, pre_merge_votes, post_merge_votes) {
+function GeneratePlayerDiv(state, player_number, score_stream, survivor_statuses, pre_merge_votes, post_merge_votes) {
+  const all_survivors = state.survivors;
   const player = all_players.toSorted()[player_number];
   const status = GetSurvivorStatusForPlayer(survivor_statuses, player);
   console.log("GetSurvivorStatusForPlayer", survivor_statuses, player, status);
@@ -927,7 +735,7 @@ function GeneratePlayerDiv(player_number, score_stream, survivor_statuses, pre_m
   const rows = score_items.map(s => `<tr><td>Episode ${s.db_event.Episode}</td><td>${s.display_text}</td>${PointsCell(s.points)}</tr>`).join("\n");
 
   const pre_merge_vote_table = (function() {
-    const tribes = Unique(all_survivors.map(s => s.tribe));
+    const tribes = Unique(all_survivors.map(s => s.Tribe));
     const tribe_headers = tribes.map(t => `<th>${t} Vote</th>`).join("\n");
     function GetEpisodeVoteRow([episode, data]) {
       const episode_cell = `<td>${episode}</td>`;
@@ -1020,7 +828,8 @@ function GeneratePlayerDiv(player_number, score_stream, survivor_statuses, pre_m
         `;
   var node = createNode('div', html);
   if (status !== null) {
-    const headshot_div = GenerateHeadshotDivForTribe(SurvivorNumber(status.survivor), score_stream, survivor_statuses, extra_info=false);
+    const survivor = SurvivorByName(state, status.survivor);
+    const headshot_div = GenerateHeadshotDivForTribe(survivor, score_stream, survivor_statuses, extra_info=false);
     node.querySelector(".sole-survivor-headshot").replaceWith(headshot_div);
   }
   return node;
@@ -1032,8 +841,8 @@ function GeneratePlayerLink(player_number) {
   return createNode('li', html);
 }
 
-function AddPlayerHtml(player_number, score_stream, survivor_statuses, pre_merge_votes, post_merge_votes, standings, list, toc) {
-  const player_div = GeneratePlayerDiv(player_number, score_stream, survivor_statuses, pre_merge_votes, post_merge_votes);
+function AddPlayerHtml(state, player_number, score_stream, survivor_statuses, pre_merge_votes, post_merge_votes, standings, list, toc) {
+  const player_div = GeneratePlayerDiv(state, player_number, score_stream, survivor_statuses, pre_merge_votes, post_merge_votes);
   list.appendChild(player_div);
   toc.appendChild(GeneratePlayerLink(player_number));
   var canvas = player_div.querySelector(".score-history-chart");
@@ -1106,7 +915,10 @@ function AddPlayerHtml(player_number, score_stream, survivor_statuses, pre_merge
   });
 }
 
-function GeneratePreMergeVoteOutPredictions(events) {
+function GeneratePreMergeVoteOutPredictions(state) {
+  const events = state.events;
+  const all_survivors = state.survivors;
+
   const episodes = events.map(e => "Episode" in e ? e.Episode : 0);
   var num_episodes = Math.max(...episodes);
   for (const e of events) {
@@ -1135,7 +947,7 @@ function GeneratePreMergeVoteOutPredictions(events) {
   // Keep a map of survivors to tribes.
   var survivors_to_tribes = new Map();
   for (const s of all_survivors) {
-    survivors_to_tribes.set(s.name, s.tribe);
+    survivors_to_tribes.set(s.Name, s.Tribe);
   }
 
   for (const e of events) {
@@ -1159,7 +971,9 @@ function GeneratePreMergeVoteOutPredictions(events) {
   return episode_to_data;
 }
 
-function GeneratePostMergeVoteOutPredictions(events) {
+function GeneratePostMergeVoteOutPredictions(state) {
+  const events = state.events;
+
   const episodes = events.map(e => "Episode" in e ? e.Episode : 0);
   var num_episodes = Math.max(...episodes);
   var merge_episode = null;
@@ -1204,8 +1018,10 @@ function GeneratePostMergeVoteOutPredictions(events) {
   return episode_to_data;
 }
 
-function GenerateStandings(events, score_stream, max_episode=10000) {
-  const sole_survivor_info = GetSoleSurvivorInfo(events, max_episode);
+function GenerateStandings(state, score_stream, max_episode=10000) {
+  const events = state.events;
+
+  const sole_survivor_info = GetSoleSurvivorInfo(state, max_episode);
   const score_items = score_stream.filter(s => s.db_event.Episode <= max_episode);
   const episodes = events.map(e => "Episode" in e ? e.Episode : 0);
   const num_episodes = Math.min(max_episode, Math.max(...episodes));
@@ -1374,10 +1190,9 @@ function ActivateCollapsibles() {
   }
 }
 
-function GenerateHeadshotDivForTribe(survivor_number, score_stream, survivor_statuses, extra_info, selectable_if_eliminated) {
-  const survivor = all_survivors[survivor_number];
-  const status = survivor_statuses.get(survivor.name);
-  var score_items = score_stream.filter(s => s.survivors.includes(survivor.name));
+function GenerateHeadshotDivForTribe(survivor, score_stream, survivor_statuses, extra_info, selectable_if_eliminated) {
+  const status = survivor_statuses.get(survivor.Name);
+  var score_items = score_stream.filter(s => s.survivors.includes(survivor.Name));
   var total_score = score_items.reduce((accumulator, s) => accumulator + s.points, 0);
   const extra_info_html = extra_info ?
 	`
@@ -1385,8 +1200,8 @@ function GenerateHeadshotDivForTribe(survivor_number, score_stream, survivor_sta
               <p>Players: ${status.players.length}</p>
         ` : "";
   const html = `
-              <div class="headshot ${survivor.headshot_class}"></div>
-              <p class="survivor-vote-name">${survivor.name}</p>
+              <div class="headshot ${survivor.HeadshotClass}"></div>
+              <p class="survivor-vote-name">${survivor.Name}</p>
               ${extra_info_html}
   `;
   console.log(html);
@@ -1418,11 +1233,15 @@ function GenerateHeadshotDivForTribe(survivor_number, score_stream, survivor_sta
   return node;
 }
 
-function GenerateTribeDivs(events, score_stream, survivor_statuses, extra_info=true, selectable_if_eliminated=true) {
+function GenerateTribeDivs(state, score_stream, survivor_statuses, extra_info=true, selectable_if_eliminated=true) {
+  const events = state.events;
+  const all_survivors = state.survivors;
+  const tribes = state.tribes;
+
   // Get the current survivor to tribe associations.
   var survivors_to_tribes = new Map();
   for (const s of all_survivors) {
-    survivors_to_tribes.set(s.name, s.tribe);
+    survivors_to_tribes.set(s.Name, s.Tribe);
   }
   for (const e of events) {
     if (e.EventName === "Tribe Swap") {
@@ -1432,27 +1251,28 @@ function GenerateTribeDivs(events, score_stream, survivor_statuses, extra_info=t
 
   // Start tribe to survivor map.
   const tribe_to_survivor_divs = new Map();
-  for (const [tribe, info] of tribe_info) {
-    tribe_to_survivor_divs.set(tribe, []);
+  const tribe_info = new Map();
+  for (const tribe of tribes) {
+    tribe_to_survivor_divs.set(tribe.Name, []);
+    tribe_info.set(tribe.Name, tribe);
   }
 
   // Build the divs.
-  for (var i in all_survivors) {
-    const survivor = all_survivors[i];
-    const tribe = survivors_to_tribes.get(survivor.name);
-    tribe_to_survivor_divs.get(tribe).push(GenerateHeadshotDivForTribe(i, score_stream, survivor_statuses, extra_info, selectable_if_eliminated));
+  for (var survivor of all_survivors) {
+    const tribe = survivors_to_tribes.get(survivor.Name);
+    tribe_to_survivor_divs.get(tribe).push(GenerateHeadshotDivForTribe(survivor, score_stream, survivor_statuses, extra_info, selectable_if_eliminated));
   }
 
   // Build container for each tribe.
   function BuildTribeContainer(tribe, divs) {
     const info = tribe_info.get(tribe);
     const html = `
-        <h2 class="tribe-header">${tribe} (${info.full_name})</h2>
+        <h2 class="tribe-header">${tribe} (${info.FullName})</h2>
         <div class="item-container"></div>
     `;
     const node = createNode('div', html);
     node.classList.add("tribe-container");
-    node.style.backgroundColor = info.color;
+    node.style.backgroundColor = info.Color;
     const container = node.querySelector(".item-container");
     for (const div of divs) {
       container.appendChild(div);
@@ -1466,16 +1286,18 @@ function GenerateTribeDivs(events, score_stream, survivor_statuses, extra_info=t
   return tribe_containers;
 }
 
-function GenerateSoleSurvivorDiv(events, score_stream, survivor_statuses, extra_info=true, include_eliminated=true) {
+function GenerateSoleSurvivorDiv(state, score_stream, survivor_statuses, extra_info=true, include_eliminated=true) {
+  const events = state.events;
+  const all_survivors = state.survivors;
+
   // Build the divs.
   const divs = [];
-  for (var i in all_survivors) {
-    const survivor = all_survivors[i];
-    const status = survivor_statuses.get(survivor.name);
+  for (var survivor of all_survivors) {
+    const status = survivor_statuses.get(survivor.Name);
     if (!include_eliminated && "elimination_method" in status) {
       continue;
     }
-    divs.push(GenerateHeadshotDivForTribe(i, score_stream, survivor_statuses, extra_info, selectable_if_eliminated=false));
+    divs.push(GenerateHeadshotDivForTribe(survivor, score_stream, survivor_statuses, extra_info, selectable_if_eliminated=false));
   }
 
   // Build container.
@@ -1493,8 +1315,8 @@ function GenerateSoleSurvivorDiv(events, score_stream, survivor_statuses, extra_
   return node;
 }
 
-function AppendTribeDivs(events, score_stream, survivor_statuses, list) {
-  const tribe_containers = GenerateTribeDivs(events, score_stream, survivor_statuses);
+function AppendTribeDivs(state, score_stream, survivor_statuses, list) {
+  const tribe_containers = GenerateTribeDivs(state, score_stream, survivor_statuses);
   for (const [tribe, container] of tribe_containers) {
     list.appendChild(container);
   }
@@ -1534,8 +1356,8 @@ function GetExistingVoteString(existing_votes, tribe, survivor_statuses) {
   return `You did not make a vote for the ${tribe} tribe.`;
 }
 
-function GeneratePreMergeVoteDivs(events, score_stream, survivor_statuses, sole_survivor, existing_votes, list) {
-  const tribe_containers = GenerateTribeDivs(events, score_stream, survivor_statuses, extra_info=false, selectable_if_eliminated=false);
+function GeneratePreMergeVoteDivs(state, score_stream, survivor_statuses, sole_survivor, existing_votes, list) {
+  const tribe_containers = GenerateTribeDivs(state, score_stream, survivor_statuses, extra_info=false, selectable_if_eliminated=false);
   for (const [tribe, container] of tribe_containers) {
     if (existing_votes.length === 0) {
       MakeQuestion(container, `Who do you think is going home from the ${tribe} tribe?`, "Predict vote out");
@@ -1544,7 +1366,7 @@ function GeneratePreMergeVoteDivs(events, score_stream, survivor_statuses, sole_
     }
     list.appendChild(container);
   }
-  var sole_survivor_div = GenerateSoleSurvivorDiv(events, score_stream, survivor_statuses, extra_info=false, include_eliminated=true);
+  var sole_survivor_div = GenerateSoleSurvivorDiv(state, score_stream, survivor_statuses, extra_info=false, include_eliminated=true);
   if (sole_survivor !== "") {
     MakeStatement(sole_survivor_div, `You selected ${sole_survivor} as your Sole Survivor.`);
   } else if (existing_votes.length === 0) {
@@ -1555,8 +1377,8 @@ function GeneratePreMergeVoteDivs(events, score_stream, survivor_statuses, sole_
   list.appendChild(sole_survivor_div);
 }
 
-function GeneratePostMergeVoteDivs(events, score_stream, survivor_statuses, existing_votes, list) {
-  var vote_out_div = GenerateSoleSurvivorDiv(events, score_stream, survivor_statuses, extra_info=false, include_eliminated=false);
+function GeneratePostMergeVoteDivs(state, score_stream, survivor_statuses, existing_votes, list) {
+  var vote_out_div = GenerateSoleSurvivorDiv(state, score_stream, survivor_statuses, extra_info=false, include_eliminated=false);
   vote_out_div.querySelector(".tribe-header").innerHTML = "Vote Out";
   if (existing_votes.length == 0) {
     MakeQuestion(vote_out_div, `Who do you think is going home?`, "Predict vote out");
@@ -1633,7 +1455,9 @@ function SubmitVotes(votes, episode, player) {
   });
 }
 
-function RegenerateVoteDivs(player, events, score_stream, survivor_statuses, list) {
+function RegenerateVoteDivs(player, state, score_stream, survivor_statuses, list) {
+  const events = state.events;
+
   list.innerHTML = "";
 
   // Get a bunch of data needed to determine what to put on the voting page.
@@ -1654,9 +1478,9 @@ function RegenerateVoteDivs(player, events, score_stream, survivor_statuses, lis
   }
 
   if (merge) {
-    GeneratePostMergeVoteDivs(events, score_stream, survivor_statuses, existing_votes, list);
+    GeneratePostMergeVoteDivs(state, score_stream, survivor_statuses, existing_votes, list);
   } else {
-    GeneratePreMergeVoteDivs(events, score_stream, survivor_statuses, sole_survivor, existing_votes, list);
+    GeneratePreMergeVoteDivs(state, score_stream, survivor_statuses, sole_survivor, existing_votes, list);
   }
 
   if (existing_votes.length === 0) {

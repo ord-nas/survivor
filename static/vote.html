@@ -3,9 +3,9 @@
 
 <head>
   <title>Survivor</title>
-  <link rel="stylesheet" href="survivor.css?v=Uauub7Y14uDRR9goEDx8ydGINZDi7Qql" type="text/css">
+  <link rel="stylesheet" href="survivor.css?v=dm7axMsWwBt12dQQ1j42hq9FMZAV49id" type="text/css">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="text/javascript" src="survivor.js?v=Uauub7Y14uDRR9goEDx8ydGINZDi7Qql"></script>
+  <script type="text/javascript" src="survivor.js?v=dm7axMsWwBt12dQQ1j42hq9FMZAV49id"></script>
 </head>
 
 <body>
@@ -46,11 +46,11 @@
     window.onload = function() {
         HandleDbSelection();
 
-        GetEvents()
-            .then(data => {
+        GetState()
+            .then(state => {
                 // Process the fetched JSON data
-                const score_stream = GenerateScoreStream(data);
-                const survivor_statuses = GetSurvivorStatuses(data);
+                const score_stream = GenerateScoreStream(state);
+                const survivor_statuses = GetSurvivorStatuses(state);
 
                 const voter_list = document.getElementById("voter-list");
                 const question_list = document.getElementById("question-list");
@@ -58,7 +58,7 @@
                     if (player === null) {
                         question_list.innerHTML = "";
                     } else {
-                        RegenerateVoteDivs(player, data, score_stream, survivor_statuses, question_list);
+                        RegenerateVoteDivs(player, state, score_stream, survivor_statuses, question_list);
                     }
                 });
             });

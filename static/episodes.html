@@ -2,9 +2,9 @@
 <html>
 <head>
   <title>Survivor</title>
-  <link rel="stylesheet" href="survivor.css?v=Uauub7Y14uDRR9goEDx8ydGINZDi7Qql" type="text/css">
+  <link rel="stylesheet" href="survivor.css?v=dm7axMsWwBt12dQQ1j42hq9FMZAV49id" type="text/css">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="text/javascript" src="survivor.js?v=Uauub7Y14uDRR9goEDx8ydGINZDi7Qql"></script>
+  <script type="text/javascript" src="survivor.js?v=dm7axMsWwBt12dQQ1j42hq9FMZAV49id"></script>
 </head>
 <body>
   <div>
@@ -46,20 +46,20 @@
     window.onload = function() {
         HandleDbSelection();
 
-        GetEvents()
-            .then(data => {
+        GetState()
+            .then(state => {
                 // Process the fetched JSON data
-                console.log(data);
-                const score_stream = GenerateScoreStream(data);
-                const episode_metadatas = GetEpisodeMetadatas(data);
-                const pre_merge_votes = GeneratePreMergeVoteOutPredictions(data);
-                const post_merge_votes = GeneratePostMergeVoteOutPredictions(data);
+                console.log(state);
+                const score_stream = GenerateScoreStream(state);
+                const episode_metadatas = GetEpisodeMetadatas(state.events);
+                const pre_merge_votes = GeneratePreMergeVoteOutPredictions(state);
+                const post_merge_votes = GeneratePostMergeVoteOutPredictions(state);
                 console.log(score_stream);
                 console.log(episode_metadatas);
                 var episode_list = document.getElementById("episode-list");
                 var episode_toc = document.getElementById("episode-toc");
                 for (const [number, metadata] of episode_metadatas) {
-                    AddEpisodeHtml(number, score_stream, episode_metadatas, pre_merge_votes, post_merge_votes, episode_list, episode_toc);
+                    AddEpisodeHtml(state, number, score_stream, episode_metadatas, pre_merge_votes, post_merge_votes, episode_list, episode_toc);
                 }
                 ActivateCollapsibles();
             });

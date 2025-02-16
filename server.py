@@ -15,10 +15,8 @@ def add_vote_events(conn, content):
     for vote in content["votes"]:
         event_type = vote["event_type"]
         survivor = vote["survivor"]
-        sql_str = f"""INSERT INTO events (Episode, Player, EventName, Survivor)
-                      VALUES ({episode}, "{player}", "{event_type}", "{survivor}");"""
-        print(sql_str)
-        conn.execute(sql_str)
+        sql_str = "INSERT INTO events (Episode, Player, EventName, Survivor) VALUES (?,?,?,?);"
+        conn.execute(sql_str, (episode, player, event_type, survivor))
     conn.commit();
 
 
@@ -37,10 +35,10 @@ def index():
     return redirect(url_for('static', filename='standings.html'))
 
 
-@app.route('/list_events', methods=['GET'])
-def list_events():
+@app.route('/state', methods=['GET'])
+def get_state():
     conn = db.initialize(get_db_filename(request))
-    as_json = json.dumps(db.fetch_data(conn),
+    as_json = json.dumps(db.fetch_state(conn),
                          indent=4)
     conn.close()
     return Response(response=as_json, status=200, mimetype="application/json")

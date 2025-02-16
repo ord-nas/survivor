@@ -2,9 +2,9 @@
 <html>
 <head>
   <title>Survivor</title>
-  <link rel="stylesheet" href="survivor.css?v=Uauub7Y14uDRR9goEDx8ydGINZDi7Qql" type="text/css">
+  <link rel="stylesheet" href="survivor.css?v=dm7axMsWwBt12dQQ1j42hq9FMZAV49id" type="text/css">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="text/javascript" src="survivor.js?v=Uauub7Y14uDRR9goEDx8ydGINZDi7Qql"></script>
+  <script type="text/javascript" src="survivor.js?v=dm7axMsWwBt12dQQ1j42hq9FMZAV49id"></script>
 </head>
 <body>
 
@@ -47,19 +47,19 @@
     window.onload = function() {
         HandleDbSelection();
 
-        GetEvents()
-            .then(data => {
+        GetState()
+            .then(state => {
                 // Process the fetched JSON data
-                const score_stream = GenerateScoreStream(data);
-                const survivor_statuses = GetSurvivorStatuses(data);
-                const pre_merge_votes = GeneratePreMergeVoteOutPredictions(data);
-                const post_merge_votes = GeneratePostMergeVoteOutPredictions(data);
-                const [standings, table] = GenerateStandings(data, score_stream);
+                const score_stream = GenerateScoreStream(state);
+                const survivor_statuses = GetSurvivorStatuses(state);
+                const pre_merge_votes = GeneratePreMergeVoteOutPredictions(state);
+                const post_merge_votes = GeneratePostMergeVoteOutPredictions(state);
+                const [standings, table] = GenerateStandings(state, score_stream);
                 console.log("standings", standings);
                 var player_list = document.getElementById("player-list");
                 var player_toc = document.getElementById("player-toc");
                 for (var i in all_players) {
-                    AddPlayerHtml(i, score_stream, survivor_statuses, pre_merge_votes, post_merge_votes, standings, player_list, player_toc);
+                    AddPlayerHtml(state, i, score_stream, survivor_statuses, pre_merge_votes, post_merge_votes, standings, player_list, player_toc);
                 }
                 ActivateCollapsibles();
                 console.log();

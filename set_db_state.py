@@ -43,7 +43,8 @@ if __name__ == "__main__":
     print("Data loaded successfully!")
 
   conn = db.initialize(db_filename, reset=True)
-  for row in data["events"]:
-      db.add_row(conn, row)
+  for (table, rows) in data.items():
+    for row in rows:
+      db.add_row(conn, table, row)
 
   print("Added rows!")
