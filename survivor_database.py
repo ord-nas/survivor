@@ -1,6 +1,6 @@
 import sqlite3
 
-DATABASE_NAME = "survivor.db"
+DATABASE_NAME = "real.db"
 
 COLUMNS = [
     ("EventName", "TEXT"),

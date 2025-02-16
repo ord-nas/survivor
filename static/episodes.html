@@ -2,12 +2,11 @@
 <html>
 <head>
   <title>Survivor</title>
-  <link rel="stylesheet" href="survivor.css?v=wafawiuhiuhfawfewwfawefwafwefehwefwwafawfwafeewfweffwaefawef" type="text/css">
+  <link rel="stylesheet" href="survivor.css?v=Uauub7Y14uDRR9goEDx8ydGINZDi7Qql" type="text/css">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="text/javascript" src="survivor.js?v=wefawewfwwfewafe"></script>
+  <script type="text/javascript" src="survivor.js?v=Uauub7Y14uDRR9goEDx8ydGINZDi7Qql"></script>
 </head>
 <body>
-
   <div>
     <input type="text" id="db-selector" name="db-selector">
   </div>
@@ -20,24 +19,24 @@
     <nav>
       <ul>
         <li><a href="standings.html">Standings</a></li>
-        <li><a href="episodes.html">Episodes</a></li>
+        <li><a class="active" href="episodes.html">Episodes</a></li>
         <li><a href="tribes.html">Tribes</a></li>
         <li><a href="survivors.html">Survivors</a></li>
-        <li><a class="active" href="players.html">Players</a></li>
+        <li><a href="players.html">Players</a></li>
         <li><a href="vote.html">Vote</a></li>
         <li><a href="admin.html">Admin</a></li>
       </ul>
     </nav>
 
     <div class="vertical-nav">
-      <ul id="player-toc">
+      <ul id="episode-toc">
       </ul>
     </div>
 
     <div class="content-with-vertical-nav">
-      <h1>Players</h1>
+      <h1>Episodes</h1>
 
-      <div id="player-list"></div>
+      <div id="episode-list"></div>
 
     </div>
   </div>
@@ -50,19 +49,19 @@
         GetEvents()
             .then(data => {
                 // Process the fetched JSON data
+                console.log(data);
                 const score_stream = GenerateScoreStream(data);
-                const survivor_statuses = GetSurvivorStatuses(data);
+                const episode_metadatas = GetEpisodeMetadatas(data);
                 const pre_merge_votes = GeneratePreMergeVoteOutPredictions(data);
                 const post_merge_votes = GeneratePostMergeVoteOutPredictions(data);
-                const [standings, table] = GenerateStandings(data, score_stream);
-                console.log("standings", standings);
-                var player_list = document.getElementById("player-list");
-                var player_toc = document.getElementById("player-toc");
-                for (var i in all_players) {
-                    AddPlayerHtml(i, score_stream, survivor_statuses, pre_merge_votes, post_merge_votes, standings, player_list, player_toc);
+                console.log(score_stream);
+                console.log(episode_metadatas);
+                var episode_list = document.getElementById("episode-list");
+                var episode_toc = document.getElementById("episode-toc");
+                for (const [number, metadata] of episode_metadatas) {
+                    AddEpisodeHtml(number, score_stream, episode_metadatas, pre_merge_votes, post_merge_votes, episode_list, episode_toc);
                 }
                 ActivateCollapsibles();
-                console.log();
             });
     };
   </script>

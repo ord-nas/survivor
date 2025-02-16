@@ -637,7 +637,7 @@ function GetSoleSurvivorInfo(events, max_episode=10000) {
 }
 
 function GetEvents() {
-  const url = 'cgi-bin/list_events.py';
+  const url = '/list_events';
   return fetch(url)
       .then(response => {
         if (!response.ok) {
@@ -1611,22 +1611,26 @@ function ExtractVotingResult(list){
 }
 
 function SubmitVotes(votes, episode, player) {
-  const url = (
-      `cgi-bin/submit_votes.py?episode=${episode}&player=${player}&` +
-	votes.map(v => `event_type=${v.event_type}&survivor=${v.survivor}`)
-	.join("&"));
-  return fetch(url)
-      .then(response => {
-        if (!response.ok) {
+  return fetch('/submit_votes', {
+    method: "POST",
+    body: JSON.stringify({
+        episode: episode,
+        player: player,
+        votes: votes,
+    }),
+    headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    }
+  }).then(response => {
+      if (!response.ok) {
 	  alert("Server error");
           throw new Error('Network response was not ok');
-        }
-        return response.json(); // Parse the response as JSON
-      })
-      .catch(error => {
-        console.error('There has been a problem with your fetch operation:', error);
-        // Handle the error appropriately (e.g., display an error message)
-      });
+      }
+      return response.json(); // Parse the response as JSON
+  }).catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+      // Handle the error appropriately (e.g., display an error message)
+  });
 }
 
 function RegenerateVoteDivs(player, events, score_stream, survivor_statuses, list) {
@@ -1715,6 +1719,6 @@ function HandleDbSelection() {
   document.cookie = `db=${db}`;
   db_selector.value = db;
   db_selector.onchange = function() {
-    document.cookie = `db=${db_selector.value}`
+      document.cookie = `db=${db_selector.value};path=/`
   };
 }
