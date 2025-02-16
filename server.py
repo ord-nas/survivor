@@ -1,5 +1,6 @@
 from flask import Flask, request, Response, redirect, url_for
 import json
+import os
 import survivor_database as db
 
 app = Flask(__name__,
@@ -21,6 +22,16 @@ def add_vote_events(conn, content):
     conn.commit();
 
 
+def get_db_filename(request):
+    if "db" in request.cookies:
+        db_name = request.cookies["db"]
+        print("cookies[db] =", db_name)
+    else:
+        db_name = "real.db"
+        print("cookies[db] = <unset> defaulting to", db_name)
+    return os.path.join("db", db_name)
+
+
 @app.route('/')
 def index():
     return redirect(url_for('static', filename='standings.html'))
@@ -28,10 +39,7 @@ def index():
 
 @app.route('/list_events', methods=['GET'])
 def list_events():
-    print("cookies", request.cookies)
-    db_filename = request.cookies.get("db", "real.db")
-    print("cookies[db] =", db_filename)
-    conn = db.initialize(db_filename)
+    conn = db.initialize(get_db_filename(request))
     as_json = json.dumps(db.fetch_data(conn),
                          indent=4)
     conn.close()
@@ -40,10 +48,8 @@ def list_events():
 
 @app.route('/submit_votes', methods=['POST'])
 def submit_votes():
-    db_filename = request.cookies.get("db", "real.db")
-    print("cookies[db] =", db_filename)
     content = request.json
-    conn = db.initialize(db_filename)
+    conn = db.initialize(get_db_filename(request))
     add_vote_events(conn, content)
     conn.close()
     response = json.dumps({"status": "ok"})

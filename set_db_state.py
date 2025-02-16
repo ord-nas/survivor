@@ -1,8 +1,15 @@
+"""
+Example command:
+
+python3 set_db_state.py db_snapshots/real.json db/real.db
+
+"""
+
 import json
 import sys
 import survivor_database as db
 
-def json_file_to_lst(filename):
+def read_json_file(filename):
   """Reads a JSON file and converts it to a Python list.
 
   Args:
@@ -30,13 +37,13 @@ if __name__ == "__main__":
 
   filename = sys.argv[1]
   db_filename = sys.argv[2] if len(sys.argv) == 3 else db.DATABASE_NAME
-  data = json_file_to_lst(filename)
+  data = read_json_file(filename)
 
   if data:
     print("Data loaded successfully!")
 
   conn = db.initialize(db_filename, reset=True)
-  for row in data:
+  for row in data["events"]:
       db.add_row(conn, row)
 
   print("Added rows!")
