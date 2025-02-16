@@ -1710,7 +1710,7 @@ function HandleDbSelection() {
     db = GetCookie("db");
   }
   if (db === null || db === undefined) {
-    db = "survivor.db";
+    db = "real.db";
   }
   document.cookie = `db=${db}`;
   db_selector.value = db;
