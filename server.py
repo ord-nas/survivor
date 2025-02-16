@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, redirect, url_for
 import json
 import survivor_database as db
 
@@ -20,9 +20,11 @@ def add_vote_events(conn, content):
         conn.execute(sql_str)
     conn.commit();
 
+
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
+def index():
+    return redirect(url_for('static', filename='standings.html'))
+
 
 @app.route('/list_events', methods=['GET'])
 def list_events():
