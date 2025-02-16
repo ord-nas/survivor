@@ -1,7 +1,6 @@
 from flask import Flask, request, Response
 import json
 import survivor_database as db
-import sys
 
 app = Flask(__name__,
             static_url_path='/s/',
@@ -17,7 +16,7 @@ def add_vote_events(conn, content):
         survivor = vote["survivor"]
         sql_str = f"""INSERT INTO events (Episode, Player, EventName, Survivor)
                       VALUES ({episode}, "{player}", "{event_type}", "{survivor}");"""
-        print(sql_str, file=sys.stderr)
+        print(sql_str)
         conn.execute(sql_str)
     conn.commit();
 
@@ -29,7 +28,7 @@ def hello_world():
 def list_events():
     print("cookies", request.cookies)
     db_filename = request.cookies.get("db", "real.db")
-    print("cookies[db] =", db_filename, file=sys.stderr)
+    print("cookies[db] =", db_filename)
     conn = db.initialize(db_filename)
     as_json = json.dumps(db.fetch_data(conn),
                          indent=4)
@@ -40,7 +39,7 @@ def list_events():
 @app.route('/submit_votes', methods=['POST'])
 def submit_votes():
     db_filename = request.cookies.get("db", "real.db")
-    print("cookies[db] =", db_filename, file=sys.stderr)
+    print("cookies[db] =", db_filename)
     content = request.json
     conn = db.initialize(db_filename)
     add_vote_events(conn, content)
