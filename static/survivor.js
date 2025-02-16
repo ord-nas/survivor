@@ -1716,7 +1716,7 @@ function HandleDbSelection() {
   if (db === null || db === undefined) {
     db = "real.db";
   }
-  document.cookie = `db=${db}`;
+  document.cookie = `db=${db};path=/`;
   db_selector.value = db;
   db_selector.onchange = function() {
       document.cookie = `db=${db_selector.value};path=/`
