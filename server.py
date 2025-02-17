@@ -33,6 +33,16 @@ def get_state():
     return Response(response=as_json, status=200, mimetype="application/json")
 
 
+@app.route('/user_state', methods=['GET'])
+def get_user_state():
+    conn = db.initialize(get_db_filename(request))
+    content = request.cookies
+    as_json = json.dumps(db.fetch_user_state(conn, content),
+                         indent=4)
+    conn.close()
+    return Response(response=as_json, status=200, mimetype="application/json")
+
+
 @app.route('/submit_votes', methods=['POST'])
 def submit_votes():
     content = request.json

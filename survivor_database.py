@@ -1,6 +1,7 @@
 import sqlite3
 import re
 from passlib.hash import pbkdf2_sha256
+import secrets
 
 DEFAULT_DATABASE_NAME = "real.db"
 
@@ -184,6 +185,49 @@ def try_login(conn, data):
             "password_message": "Incorrect password."
         }
 
+    session_id = secrets.token_hex()
+    cursor.execute("INSERT INTO sessions VALUES (?, ?)", (username, session_id))
+    conn.commit()
+
     return {
-        "status": "success"
+        "status": "success",
+        "account": {
+            "username": username,
+            "email": email,
+            "session_id": session_id,
+        }
+    }
+
+def fetch_user_state(conn, data):
+    """Fetches user state and returns it as a dictionary."""
+
+    if "username" not in data:
+        return { "status": "error", "message": "Invalid request, missing username." }
+
+    if "session_id" not in data:
+        return { "status": "error", "message": "Invalid request, missing session id." }
+
+    username = data["username"]
+    session_id = data["session_id"]
+
+    cursor = conn.cursor()
+    cursor.execute("SELECT p.Username, p.Email FROM players AS p "
+                   "INNER JOIN sessions AS s "
+                   "ON p.Username = s.Username "
+                   "WHERE s.Username = ? AND s.SessionId = ? "
+                   "LIMIT 1", (username, session_id))
+    matching_users = cursor.fetchall()
+
+    if len(matching_users) != 1:
+        return { "status": "error", "message": "Invalid session." }
+
+    _, email = matching_users[0]
+
+    return {
+        "status": "success",
+        "account": {
+            "username": username,
+            "email": email,
+            "session_id": session_id,
+        }
     }

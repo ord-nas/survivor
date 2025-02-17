@@ -193,7 +193,9 @@
                         document.getElementById("identifier-error").innerText = "";
                         document.getElementById("password-error").innerText = "";
                         if (result.status === "success") {
-                            alert("Successful login!");
+                            document.cookie = `username=${result.account.username};path=/`;
+                            document.cookie = `session_id=${result.account.session_id};path=/`;
+                            window.location.href = 'account.html';
                         } else {
                             if ("identifier_message" in result) {
                                 document.getElementById("identifier-error").innerText = result.identifier_message;
@@ -223,7 +225,7 @@
             if (email === "" || !email_regex.test(email)) {
                 errorElement.innerText = "You must enter an email address to get a password reset link.";
             } else {
-                alert("Password reset link sent to your email.");
+                alert("Password reset not implemented yet, oops!");
             }
         });
      }

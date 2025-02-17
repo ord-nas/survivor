@@ -34,7 +34,7 @@
 
     <div class="content">
         <h1>Account</h1>
-        <p>You are not currently logged in. <a href="login.html">Click here</a> to go to the login page.</p>
+        <div id="account"></div>
     </div>
   </div>
 
@@ -42,6 +42,23 @@
     // Execute on page load
     window.onload = function() {
         HandleDbSelection();
+
+        GetUserState()
+            .then(state => {
+                console.log(state);
+
+                var account_div = document.getElementById("account");
+
+                // Check for error.
+                if (state.status !== "success") {
+                    account_div.innerHTML = '<p>You are not currently logged in. <a href="login.html">Click here</a> to go to the login page.</p>';
+                } else {
+                    account_div.innerHTML = `
+                      <p>Username: ${state.account.username}</p>
+                      <p>Email: ${state.account.email}</p>
+                    `;
+                }
+            });
     };
   </script>
 
