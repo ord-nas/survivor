@@ -26,19 +26,15 @@
         <li><a href="tribes.html">Tribes</a></li>
         <li><a href="survivors.html">Survivors</a></li>
         <li><a href="players.html">Players</a></li>
-        <li><a class="active" href="vote.html">Vote</a></li>
-        <li><a href="account.html">Account</a></li>
+        <li><a href="vote.html">Vote</a></li>
+        <li><a class="active" href="account.html">Account</a></li>
         <li><a href="admin.html">Admin</a></li>
       </ul>
     </nav>
 
     <div class="content">
-      <h1>Vote</h1>
-      <label for="voter-list">Choose a player to vote:</label>
-      <select name="voter-list" id="voter-list">
-        <option value="none">---</option>
-      </select>
-      <div id="question-list"></div>
+        <h1>Account</h1>
+        <p>You are not currently logged in. <a href="login.html">Click here</a> to go to the login page.</p>
     </div>
   </div>
 
@@ -46,23 +42,6 @@
     // Execute on page load
     window.onload = function() {
         HandleDbSelection();
-
-        GetState()
-            .then(state => {
-                // Process the fetched JSON data
-                const score_stream = GenerateScoreStream(state);
-                const survivor_statuses = GetSurvivorStatuses(state);
-
-                const voter_list = document.getElementById("voter-list");
-                const question_list = document.getElementById("question-list");
-                PopulateVoterList(voter_list, function(player) {
-                    if (player === null) {
-                        question_list.innerHTML = "";
-                    } else {
-                        RegenerateVoteDivs(player, state, score_stream, survivor_statuses, question_list);
-                    }
-                });
-            });
     };
   </script>
 

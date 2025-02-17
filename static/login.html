@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #5c6bc0;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            position: absolute;
+            left: 0;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5c6bc0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4f5b8b;
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .forgot-password a {
+            text-decoration: none;
+            color: #5c6bc0;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="input-container">
+                    <label for="username">Username or Email</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username or email">
+                    <div id="username-error" class="error"></div>
+                </div>
+                <div class="input-container">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                    <div id="password-error" class="error"></div>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <div class="forgot-password">
+                <a href="#" id="forgot-password-link">Forgot Password?</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+     const username_regex = /^[a-zA-Z0-9._\- ]+$/;
+     const email_regex = /^\S+@\S+\.\S+$/;
+     const password_regex = /^[a-zA-Z0-9.,_\-!?@#$%^&*+~(){}\[\];:'"`<>\\\/|= ]+$/;
+     
+     // Execute on page load
+     window.onload = function() {
+        document.getElementById("login-form").addEventListener("submit", function(event) {
+            event.preventDefault();  // Prevent form submission
+
+            let isValid = true;
+
+            // Clear previous errors
+            document.getElementById("username-error").innerText = "";
+            document.getElementById("password-error").innerText = "";
+
+            // Get form values
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            // Validate Username or Email
+            if (username === "") {
+                document.getElementById("username-error").innerText = "Username or email is required.";
+                isValid = false;
+            } else if (!username_regex.test(username) && !email_regex.test(username)) {
+                document.getElementById("username-error").innerText = "Please enter a valid username or email address.";
+                isValid = false;
+            }
+
+            // Validate Password
+            if (password === "") {
+                document.getElementById("password-error").innerText = "Password is required.";
+                isValid = false;
+            } else if (!password_regex.test(password)) {
+                document.getElementById("password-error").innerText = "Invalid character in password.";
+                isValid = false;
+            }
+
+            // If everything is valid, submit the form (you can replace this with actual form submission)
+            if (isValid) {
+                console.log("Form submitted!");
+            }
+        });
+
+        // Forgot Password logic
+        document.getElementById("forgot-password-link").addEventListener("click", function(event) {
+            event.preventDefault();  // Prevent the default link action
+
+            const email = document.getElementById("username").value.trim();
+            const errorElement = document.getElementById("username-error");
+
+            // Clear previous errors
+            document.getElementById("username-error").innerText = "";
+            document.getElementById("password-error").innerText = "";
+
+            if (email === "" || !email_regex.test(email)) {
+                errorElement.innerText = "You must enter an email address to get a password reset link.";
+            } else {
+                alert("Password reset link sent to your email.");
+            }
+        });
+     }
+    </script>
+</body>
+</html>
