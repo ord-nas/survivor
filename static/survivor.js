@@ -1499,8 +1499,13 @@ function RegenerateVoteDivs(player, state, score_stream, survivor_statuses, list
   }
 
   if (existing_votes.length === 0) {
-    var node = createNode('div', '<button class="vote-button">Vote</button>')
-    var button = node.querySelector(".vote-button");
+    var node = createNode('div', `
+        <div class="button-container">
+          <div>
+            <button class="action-button">Vote</button>
+          </div>
+        </div>`);
+    var button = node.querySelector(".action-button");
     button.onclick = function() {
       const voting_result = ExtractVotingResult(list);
       console.log(voting_result);
@@ -1560,4 +1565,56 @@ function HandleDbSelection() {
   db_selector.onchange = function() {
       document.cookie = `db=${db_selector.value};path=/`
   };
+}
+
+function LogOut(scope) {
+    return fetch('/submit_logout', {
+        method: "POST",
+        body: JSON.stringify({
+            scope: scope,
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    }).then(response => {
+        if (!response.ok) {
+	    alert("Server error");
+            throw new Error('Network response was not ok');
+        }
+        return response.json(); // Parse the response as JSON
+    }).catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+        // Handle the error appropriately (e.g., display an error message)
+    }).then(result => {
+        console.log(result);
+        if (result.status === "success") {
+            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            window.location.reload();
+        }
+    });
+}
+
+function PopulateAccountDiv(user_state, account_div) {
+    // Check for error.
+    if (user_state.status !== "success") {
+        account_div.innerHTML = '<p>You are not currently logged in. <a href="login.html">Click here</a> to go to the login page.</p>';
+    } else {
+        account_div.innerHTML = `
+          <p>Username: ${user_state.account.username}</p>
+          <p>Email: ${user_state.account.email}</p>
+          <div class="button-container">
+            <div>
+              <button class="action-button" id="log-out-local">Log Out</button>
+              <button class="action-button" id="log-out-global">Log Out All Devices</button>
+            </div>
+          </div>
+        `;
+        document.getElementById("log-out-local").onclick = function() {
+            LogOut("local");
+        };
+        document.getElementById("log-out-global").onclick = function() {
+            LogOut("global");
+        };
+    }
 }

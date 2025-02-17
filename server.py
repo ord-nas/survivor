@@ -60,3 +60,13 @@ def submit_login():
     result = db.try_login(conn, content)
     conn.close()
     return Response(response=json.dumps(result), status=200, mimetype="application/json")
+
+
+@app.route('/submit_logout', methods=['POST'])
+def submit_logout():
+    content = request.json
+    cookies = request.cookies
+    conn = db.initialize(get_db_filename(request))
+    result = db.try_logout(conn, content, cookies)
+    conn.close()
+    return Response(response=json.dumps(result), status=200, mimetype="application/json")

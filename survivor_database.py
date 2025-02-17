@@ -198,6 +198,48 @@ def try_login(conn, data):
         }
     }
 
+def try_logout(conn, content, cookies):
+    """Attempts to log out the current session."""
+
+    if "username" not in cookies:
+        return { "status": "error", "message": "Invalid request, missing username." }
+
+    if "session_id" not in cookies:
+        return { "status": "error", "message": "Invalid request, missing session id." }
+
+    if "scope" not in content:
+        return { "status": "error", "message": "Invalid request, missing scope." }
+
+    username = cookies["username"]
+    session_id = cookies["session_id"]
+    scope = content["scope"]
+
+    cursor = conn.cursor()
+    cursor.execute("SELECT p.Username, p.Email FROM players AS p "
+                   "INNER JOIN sessions AS s "
+                   "ON p.Username = s.Username "
+                   "WHERE s.Username = ? AND s.SessionId = ? "
+                   "LIMIT 1", (username, session_id))
+    matching_users = cursor.fetchall()
+
+    if len(matching_users) != 1:
+        return { "status": "error", "message": "Invalid session." }
+
+    if scope == "local":
+        cursor.execute("DELETE FROM sessions "
+                       "WHERE Username = ? AND SessionId = ?",
+                       (username, session_id))
+        conn.commit()
+    elif scope == "global":
+        cursor.execute("DELETE FROM sessions "
+                       "WHERE Username = ?",
+                       (username,))
+        conn.commit()
+    else:
+        return { "status": "error", "message": "Invalid request, invalid scope." }
+
+    return { "status": "success" }
+
 def fetch_user_state(conn, data):
     """Fetches user state and returns it as a dictionary."""
 
