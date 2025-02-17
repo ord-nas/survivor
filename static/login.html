@@ -4,106 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #e0f0e0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .login-box {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 400px;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .input-container {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            font-size: 14px;
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #5c6bc0;
-        }
-
-        .error {
-            color: red;
-            font-size: 12px;
-            position: absolute;
-            left: 0;
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #5c6bc0;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #4f5b8b;
-        }
-
-        .forgot-password {
-            display: block;
-            text-align: center;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .forgot-password a {
-            text-decoration: none;
-            color: #5c6bc0;
-        }
-
-        .forgot-password a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="login.css?v=hnstWyWuNI2tjmlBg2fl1NqOMtRoIZjZ" type="text/css">
+    <script type="text/javascript" src="survivor.js?v=jv7LPpQ08SvewzzYmcNh1htUmYcHa8Ll"></script>
 </head>
 <body>
     <div class="login-container">
@@ -129,105 +31,16 @@
     </div>
 
     <script>
-     const username_regex = /^[a-zA-Z0-9._\- ]+$/;
-     const email_regex = /^\S+@\S+\.\S+$/;
-     const password_regex = /^[a-zA-Z0-9.,_\-!?@#$%^&*+~(){}\[\];:'"`<>\\\/|= ]+$/;
-     
      // Execute on page load
      window.onload = function() {
-        document.getElementById("login-form").addEventListener("submit", function(event) {
-            event.preventDefault();  // Prevent form submission
-
-            let isValid = true;
-
-            // Clear previous errors
-            document.getElementById("identifier-error").innerText = "";
-            document.getElementById("password-error").innerText = "";
-
-            // Get form values
-            const identifier = document.getElementById("identifier").value;
-            const password = document.getElementById("password").value;
-
-            // Validate Username or Email
-            if (identifier === "") {
-                document.getElementById("identifier-error").innerText = "Username or email is required.";
-                isValid = false;
-            } else if (!username_regex.test(identifier) && !email_regex.test(identifier)) {
-                document.getElementById("identifier-error").innerText = "Please enter a valid username or email address.";
-                isValid = false;
-            }
-
-            // Validate Password
-            if (password === "") {
-                document.getElementById("password-error").innerText = "Password is required.";
-                isValid = false;
-            } else if (!password_regex.test(password)) {
-                document.getElementById("password-error").innerText = "Invalid character in password.";
-                isValid = false;
-            }
-
-            // If everything is valid, submit the form (you can replace this with actual form submission)
-            if (isValid) {
-                fetch('/submit_login', {
-                    method: "POST",
-                    body: JSON.stringify({
-                        identifier: identifier,
-                        password: password,
-                    }),
-                    headers: {
-                        "Content-type": "application/json; charset=UTF-8"
-                    }
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .catch(error => {
-                        console.error('There has been a problem with your fetch operation:', error);
-                    })
-                    .then(result => {
-                        console.log(result);
-                        // Clear previous errors
-                        document.getElementById("identifier-error").innerText = "";
-                        document.getElementById("password-error").innerText = "";
-                        if (result.status === "success") {
-                            document.cookie = `username=${result.account.username};path=/`;
-                            document.cookie = `session_id=${result.account.session_id};path=/`;
-                            window.location.href = 'account.html';
-                        } else {
-                            if ("identifier_message" in result) {
-                                document.getElementById("identifier-error").innerText = result.identifier_message;
-                            }
-                            if ("password_message" in result) {
-                                document.getElementById("password-error").innerText = result.password_message;
-                            }
-                            if ("message" in result) {
-                                alert("Server error. This shouldn't happen. " + result.message);
-                            }
-                        }
-                    });
-            }
-        });
-
-        // Forgot Password logic
-        document.getElementById("forgot-password-link").addEventListener("click", function(event) {
-            event.preventDefault();  // Prevent the default link action
-
-            const email = document.getElementById("identifier").value;
-            const errorElement = document.getElementById("identifier-error");
-
-            // Clear previous errors
-            document.getElementById("identifier-error").innerText = "";
-            document.getElementById("password-error").innerText = "";
-
-            if (email === "" || !email_regex.test(email)) {
-                errorElement.innerText = "You must enter an email address to get a password reset link.";
-            } else {
-                alert("Password reset not implemented yet, oops!");
-            }
-        });
+         InstallLoginLogic({
+             form_elm: document.getElementById("login-form"),
+             identifier_elm: document.getElementById("identifier"),
+             password_elm: document.getElementById("password"),
+             identifier_error_elm: document.getElementById("identifier-error"),
+             password_error_elm: document.getElementById("password-error"),
+             forgot_password_elm: document.getElementById("forgot-password-link"),
+         });
      }
     </script>
 </body>

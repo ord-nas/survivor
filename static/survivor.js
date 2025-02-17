@@ -1,3 +1,6 @@
+const USERNAME_REGEX = /^[a-zA-Z0-9._\- ]+$/;
+const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
+const PASSWORD_REGEX = /^[a-zA-Z0-9.,_\-!?@#$%^&*+~(){}\[\];:'"`<>\\\/|= ]+$/;
 
 const rubric = [
   {
@@ -1532,6 +1535,108 @@ function HandleDbSelection() {
   db_selector.onchange = function() {
       document.cookie = `db=${db_selector.value};path=/`
   };
+}
+
+function InstallLoginLogic({
+    form_elm,
+    identifier_elm,
+    password_elm,
+    identifier_error_elm,
+    password_error_elm,
+    forgot_password_elm,
+}={}) {
+    form_elm.addEventListener("submit", function(event) {
+        event.preventDefault();  // Prevent form submission
+
+        let isValid = true;
+
+        // Clear previous errors
+        identifier_error_elm.innerText = "";
+        password_error_elm.innerText = "";
+
+        // Get form values
+        const identifier = identifier_elm.value;
+        const password = password_elm.value;
+
+        // Validate Username or Email
+        if (identifier === "") {
+            identifier_error_elm.innerText = "Username or email is required.";
+            isValid = false;
+        } else if (!USERNAME_REGEX.test(identifier) && !EMAIL_REGEX.test(identifier)) {
+            identifier_error_elm.innerText = "Please enter a valid username or email address.";
+            isValid = false;
+        }
+
+        // Validate Password
+        if (password === "") {
+            password_error_elm.innerText = "Password is required.";
+            isValid = false;
+        } else if (!PASSWORD_REGEX.test(password)) {
+            password_error_elm.innerText = "Invalid character in password.";
+            isValid = false;
+        }
+
+        // If everything is valid, submit the form (you can replace this with actual form submission)
+        if (isValid) {
+            fetch('/submit_login', {
+                method: "POST",
+                body: JSON.stringify({
+                    identifier: identifier,
+                    password: password,
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                })
+                .then(result => {
+                    console.log(result);
+                    // Clear previous errors
+                    identifier_error_elm.innerText = "";
+                    password_error_elm.innerText = "";
+                    if (result.status === "success") {
+                        document.cookie = `username=${result.account.username};path=/`;
+                        document.cookie = `session_id=${result.account.session_id};path=/`;
+                        window.location.href = 'account.html';
+                    } else {
+                        if ("identifier_message" in result) {
+                            identifier_error_elm.innerText = result.identifier_message;
+                        }
+                        if ("password_message" in result) {
+                            password_error_elm.innerText = result.password_message;
+                        }
+                        if ("message" in result) {
+                            alert("Server error. This shouldn't happen. " + result.message);
+                        }
+                    }
+                });
+        }
+    });
+
+    // Forgot Password logic
+    forgot_password_elm.addEventListener("click", function(event) {
+        event.preventDefault();  // Prevent the default link action
+
+        const email = identifier_elm.value;
+
+        // Clear previous errors
+        identifier_error_elm.innerText = "";
+        password_error_elm.innerText = "";
+
+        if (email === "" || !EMAIL_REGEX.test(email)) {
+            identifier_error_elm.innerText = "You must enter an email address to get a password reset link.";
+        } else {
+            alert("Password reset not implemented yet, oops!");
+        }
+    });
 }
 
 function LogOut(scope) {
