@@ -1,36 +1,4 @@
 
-// TODO FIXME
-const all_players = [
-  "Ryan T",
-  "David Santana",
-  "Marcus",
-  "Zachary",
-  "Bryan",
-  "Matt C",
-  "BERTRAND",
-  "Dawson",
-  "Deret",
-  "John Silva",
-  "Vincent",
-  "Benj",
-  "Grady Williams",
-  "Sandro",
-  "Ty",
-  "Cody Smith",
-  "Wyatt Robertson",
-  "Eli",
-  "Ryan Doro",
-  "Patrick",
-  "Matt L",
-  "Yinwei",
-  "Jacob",
-  "Ian Nally",
-  "Mitchell",
-  "Mikey",
-  "Dillon",
-  "Alex",
-];
-
 const rubric = [
   {
     "name": "Find a Clue (for Idol or Advantage)",
