@@ -32,6 +32,15 @@ TABLES = {
         ("FullName", "TEXT"),
         ("Color", "TEXT"),
     ],
+    "players": [
+        ("Username", "TEXT"),
+        ("Email", "TEXT"),
+        ("PasswordHash", "TEXT"),
+    ],
+    "sessions": [
+        ("Username", "TEXT"),
+        ("SessionId", "TEXT"),
+    ],
 }
 
 def create_or_connect_db(db_name):

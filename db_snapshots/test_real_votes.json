@@ -282,5 +282,147 @@
         {"Name": "Red", "FullName": "Lavo", "Color": "#FAA0A0"},
         {"Name": "Yellow", "FullName": "Gata", "Color": "#FFFAA0"},
         {"Name": "Blue", "FullName": "Tuku", "Color": "#A7C7E7"}
+    ],
+    "players": [
+        {
+            "Username": "Ryan T",
+            "Email": "ryanoliverthomas@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$9J7z/v8/ZywlZIxxrhUCIA$8urYBmZhHDZb8pTuK3wzkfMftXdWf3YSrIf5cdZRvZ8"
+        },
+        {
+            "Username": "David Santana",
+            "Email": "david.santana.montanez@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$JESoFUKodc4Zg7BWKqWUMg$mdhQPk8NaDIWPjJAzgTiBTDarvJhK3X8uP8X9VN9D5M"
+        },
+        {
+            "Username": "Marcus",
+            "Email": "marcusbiwright@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$1fo/pzRmLKU0hlAqhdA6Jw$Bvzj5Jr/bMpUViDAQ/Bkuy0.4a/IbuJEJ/f.nneB5Rc"
+        },
+        {
+            "Username": "Zachary",
+            "Email": "zjleonard3@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$GEMIIWQMgTAGoPSeM6YUYg$Aj5uaCAMMrU/A7SSHsnwhdQqIMyd/6Y.BUMJWSoVaQs"
+        },
+        {
+            "Username": "Bryan",
+            "Email": "bryhancoc@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$VAph7B2jtFaqdU5JiZHyng$dQDvQtGxYXQhBuMQ3kf5305IJl7vfL/cgjkT9FySI/0"
+        },
+        {
+            "Username": "Matt C",
+            "Email": "mattchupack@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$1Lo3prQW4jznHGNsTSmltA$zvRHPHN4L36dBJmd6tYc8TzbY8rIkRM5FueXASZpWjY"
+        },
+        {
+            "Username": "BERTRAND",
+            "Email": "bertrand.t.cheng@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$Vgrh3Nv7PyfEGGPs3bv3fg$FKfEfc6SNDDIAghOfmANZHJ3sOoRr6gj5iv40W8/MJY"
+        },
+        {
+            "Username": "Dawson",
+            "Email": "dawsonmcneillray@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$YIyxdq71nlNqLUXIWYsxBg$KUbHaVBHpoxWWvSxKma/k0UTtJM3DKJak8vlfYzjHoU"
+        },
+        {
+            "Username": "Deret",
+            "Email": "musselman.deret@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$h/A.x/hfa82ZEyJkrFVK6Q$3j3BSJiFN.0VBFHKQNirbeteB/AcJBnRZi/3deNfbs8"
+        },
+        {
+            "Username": "John Silva",
+            "Email": "johnmsilva24@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$MKYUQggBAGBMqdVa633vnQ$GxXKBTWYiquj7wS0SShMppc43rpWMHzXuX2ooi1ZkHs"
+        },
+        {
+            "Username": "Vincent",
+            "Email": "rogersv6@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$BMDYW4uRUgoh5PyfU0qJ0Q$BQBWVnWRMBGTCEdaiSxaNaAsD5c/vWaVszMXsNdCKd0"
+        },
+        {
+            "Username": "Benj",
+            "Email": "benlk92@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$vTcGQEgpBSDEWKv1fo8xBg$t9dJj/Tw2yTtIarCIO/Lv1Zv4MRkUdKsKYH0Lat7z.o"
+        },
+        {
+            "Username": "Grady Williams",
+            "Email": "williamsgrady@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$CeGcc44xZkyJEcLY29sbYw$rjjLEhFb5fb.6cNIpWb/jE7fhGVKUM53o8Fk3N7aWRI"
+        },
+        {
+            "Username": "Sandro",
+            "Email": "young.sandro1@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$29v7/18L4dwbIwSgNIYw5g$voHpaGjBSywGky6ofoPHbayOtN2O7sgJj5U15SLDHaE"
+        },
+        {
+            "Username": "Ty",
+            "Email": "tylerajdini13@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$4XyPUaq19r53bm1NyVkLYQ$oyQiFYqpBtB/2Pub5LX5dpWEJ62SmUa9XoYzZLEavnI"
+        },
+        {
+            "Username": "Cody Smith",
+            "Email": "codys015@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$NWZsLWXMmTPGuFdqTSll7A$DAmfMUgjb4lFVGpSNtdzzYAGx4dGRQOJJfToRsCl.K8"
+        },
+        {
+            "Username": "Wyatt Robertson",
+            "Email": "wyattmarkrobertson@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$dm4tZYwxZszZ25szhjDG.A$/5uinzn1uPsgzEronXHHQaioqlCgCbhsDMdbU/IF2mY"
+        },
+        {
+            "Username": "Eli",
+            "Email": "erabek@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$6N0bo7SWUiolhBCCMOYcAw$xoT7m81mWRQ9YHZWRQlUi7c.YUhIDaX1PUm8ID70RVw"
+        },
+        {
+            "Username": "Ryan Doro",
+            "Email": "ryangdoro@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$OAcgBECI8R4DoJRSivGe0w$C3pdWm46uzYy8bziyDtgeAA4DFmkTTgrUR1imX71o4g"
+        },
+        {
+            "Username": "Patrick",
+            "Email": "patrick.clarke01@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$mTOGEOL8P8d4733vXUup9Q$/qMqsKDoJdKk9YzPY66mVAn6hQnVlR6gXYdctZO43gc"
+        },
+        {
+            "Username": "Matt L",
+            "Email": "mjledbet@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$ZawVYsz5vzcGgPAew9g7hw$.oCBR1P9AiXkzuiehMRlPuMOQO4NGxfTbzXRcIDtmKg"
+        },
+        {
+            "Username": "Yinwei",
+            "Email": "yinweisoon@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$aG1NqbVWSsm5d87Zu/ceYw$HB6fSjjk4e5v3K2Fds2a6na/keLJ.8CtFV4ov8cx.5Y"
+        },
+        {
+            "Username": "Jacob",
+            "Email": "thejacobhenson@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$ac25d.5d6x0j5DyHMMaYEw$.QQY4Bj4F1F2pALuQWA4bBDZr.H.qYtVelJo2kLJmdk"
+        },
+        {
+            "Username": "Ian Nally",
+            "Email": "iannally@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$HsMYQwgBQAihNCbknBNibA$zoc0ZcxzS6Fz0dmDNpT5ROy7dHPocU7E0fS2NGGRoA8"
+        },
+        {
+            "Username": "Mitchell",
+            "Email": "mitchell.car@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$jLE2JgTgXKv1XguhtPa.9w$QD1sARmvFTQBxULtCTqN3FoEw8nnpiZzwuXgs8N8./I"
+        },
+        {
+            "Username": "Mikey",
+            "Email": "mike92.gutierrez@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$t/b.HwOgVGqNUcp5L2UMQQ$M4imjGt1DtIInJHfLL.MdEsf0gRChr2kN9rz4S5lu9I"
+        },
+        {
+            "Username": "Dillon",
+            "Email": "dillonrgrady@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$9N6bU0pJKcVYi5GSEqI0xg$5eqaVSmVMEa88PdVSB/5w6BNcHIjZalvWuysWoBGkiI"
+        },
+        {
+            "Username": "Alex",
+            "Email": "alex.chibly@gmail.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$T8m5l1JKCSHEuJcSIoTQOg$.UxOuUsjjhDBpw6.caByCh3X/qMZdcTcRGILGx98fUU"
+        }
     ]
 }
