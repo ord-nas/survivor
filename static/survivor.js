@@ -742,7 +742,7 @@ function SurvivorByName(state, name) {
 
 function GeneratePlayerDiv(state, player_number, score_stream, survivor_statuses, pre_merge_votes, post_merge_votes) {
   const all_survivors = state.survivors;
-  const player = all_players.toSorted()[player_number];
+  const player = state.players[player_number];
   const status = GetSurvivorStatusForPlayer(survivor_statuses, player);
   console.log("GetSurvivorStatusForPlayer", survivor_statuses, player, status);
   var score_items = score_stream.filter(s => s.players.includes(player));
@@ -850,20 +850,19 @@ function GeneratePlayerDiv(state, player_number, score_stream, survivor_statuses
   return node;
 }
 
-function GeneratePlayerLink(player_number) {
-  const player = all_players.toSorted()[player_number];
+function GeneratePlayerLink(player_number, player) {
   const html = `<a href="#player${player_number}">${player}</a>`;
   return createNode('li', html);
 }
 
 function AddPlayerHtml(state, player_number, score_stream, survivor_statuses, pre_merge_votes, post_merge_votes, standings, list, toc) {
+  var player = state.players[player_number];
   const player_div = GeneratePlayerDiv(state, player_number, score_stream, survivor_statuses, pre_merge_votes, post_merge_votes);
   list.appendChild(player_div);
-  toc.appendChild(GeneratePlayerLink(player_number));
+  toc.appendChild(GeneratePlayerLink(player_number, player));
   var canvas = player_div.querySelector(".score-history-chart");
   if (canvas === null || canvas === undefined) return;
   var info = null;
-  var player = all_players.toSorted()[player_number];
   for (var standing of standings) {
     if (standing.player === player) {
       info = standing;
@@ -944,7 +943,7 @@ function GeneratePreMergeVoteOutPredictions(state) {
 
   function GenerateNullPredictions() {
     var player_to_predictions = new Map();
-    for (const player of all_players) {
+    for (const player of state.players) {
       player_to_predictions.set(player, new Map());
     }
     return player_to_predictions;
@@ -1004,7 +1003,7 @@ function GeneratePostMergeVoteOutPredictions(state) {
 
   function GenerateNullPredictions() {
     var player_to_prediction = new Map();
-    for (const player of all_players) {
+    for (const player of state.players) {
       player_to_prediction.set(player, "");
     }
     return player_to_prediction;
@@ -1043,7 +1042,7 @@ function GenerateStandings(state, score_stream, max_episode=10000) {
   const num_vote_outs = score_items.filter(s => s.rubric_entry.tags.includes("voting")).length;
 
   var player_to_standing = new Map();
-  for (const player of all_players) {
+  for (const player of state.players) {
     player_to_standing.set(player, {
       "player": player,
       "sole_survivor_info": sole_survivor_info.get(player), // May be undefined
@@ -1524,10 +1523,10 @@ function RegenerateVoteDivs(player, state, score_stream, survivor_statuses, list
   console.log("sole_survivor", player, survivor_statuses, sole_survivor);
 }
 
-function PopulateVoterList(voter_list, callback) {
+function PopulateVoterList(state, voter_list, callback) {
   var value_to_player = new Map();
-  for (var player_number in all_players) {
-    const player = all_players[player_number];
+  for (var player_number in state.players) {
+    const player = state.players[player_number];
     const node = createNode('option', player);
     node.value = `player${player_number}`;
     voter_list.appendChild(node);

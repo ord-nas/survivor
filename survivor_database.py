@@ -124,6 +124,13 @@ def fetch_state(conn):
         "tribes",
         "SELECT * FROM tribes ORDER BY Name"
     )
+    data["players"] = [
+        p["Username"]
+        for p in get_table_contents(
+            "players",
+            "SELECT Username FROM players ORDER BY Username"
+        )
+    ]
 
     return data
 
