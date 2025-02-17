@@ -1,4 +1,6 @@
 import sqlite3
+import re
+from passlib.hash import pbkdf2_sha256
 
 DEFAULT_DATABASE_NAME = "real.db"
 
@@ -42,6 +44,10 @@ TABLES = {
         ("SessionId", "TEXT"),
     ],
 }
+
+USERNAME_REGEX = r'^[a-zA-Z0-9._\- ]+$'
+EMAIL_REGEX = r'^\S+@\S+\.\S+$'
+PASSWORD_REGEX = r"""^[a-zA-Z0-9.,_\-!?@#$%^&*+~(){}\[\];:'"`<>\\\/|= ]+$"""
 
 def create_or_connect_db(db_name):
     """Creates or connects to an existing SQLite database."""
@@ -119,3 +125,65 @@ def fetch_state(conn):
     )
 
     return data
+
+def add_vote_events(conn, data):
+    cursor = conn.cursor();
+    episode = data["episode"]
+    player = data["player"]
+    for vote in data["votes"]:
+        event_type = vote["event_type"]
+        survivor = vote["survivor"]
+        sql_str = "INSERT INTO events (Episode, Player, EventName, Survivor) VALUES (?,?,?,?);"
+        conn.execute(sql_str, (episode, player, event_type, survivor))
+    conn.commit()
+
+def try_login(conn, data):
+    if "identifier" not in data:
+        return { "status": "error", "message": "Invalid request, missing identifier." }
+
+    if "password" not in data:
+        return { "status": "error", "message": "Invalid request, missing password." }
+
+    identifier = data["identifier"]
+    password = data["password"]
+
+    valid_username = re.match(USERNAME_REGEX, identifier) is not None
+    valid_email = re.match(EMAIL_REGEX, identifier) is not None
+    valid_identifier = valid_username or valid_email
+    valid_password = re.match(PASSWORD_REGEX, password) is not None
+
+    if not valid_identifier or not valid_password:
+        result = { "status": "error" }
+        if not valid_identifier:
+            if identifier == "":
+                result["identifier_message"] = "Username or email is required."
+            else:
+                result["identifier_message"] = "Please enter a valid username or email address."
+        if not valid_password:
+            if password == "":
+                result["password_message"] = "Password is required."
+            else:
+                result["password_message"] = "Invalid character in password."
+        return result
+
+    cursor = conn.cursor()
+    cursor.execute("SELECT Username, Email, PasswordHash FROM players "
+                   "WHERE Username = ? OR EMAIL = ?", (identifier, identifier))
+    matching_players = cursor.fetchall()
+
+    if len(matching_players) != 1:
+        return {
+            "status": "error",
+            "identifier_message": "No matching account found."
+        }
+
+    username, email, password_hash = matching_players[0]
+    if not pbkdf2_sha256.verify(password, password_hash):
+        return {
+            "status": "error",
+            "password_message": "Incorrect password."
+        }
+
+    return {
+        "status": "success"
+    }

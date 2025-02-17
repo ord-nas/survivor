@@ -8,17 +8,6 @@ app = Flask(__name__,
             static_folder='static')
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
-def add_vote_events(conn, content):
-    cursor = conn.cursor();
-    episode = content["episode"]
-    player = content["player"]
-    for vote in content["votes"]:
-        event_type = vote["event_type"]
-        survivor = vote["survivor"]
-        sql_str = "INSERT INTO events (Episode, Player, EventName, Survivor) VALUES (?,?,?,?);"
-        conn.execute(sql_str, (episode, player, event_type, survivor))
-    conn.commit();
-
 
 def get_db_filename(request):
     if "db" in request.cookies:
@@ -52,3 +41,12 @@ def submit_votes():
     conn.close()
     response = json.dumps({"status": "ok"})
     return Response(response=response, status=200, mimetype="application/json")
+
+
+@app.route('/submit_login', methods=['POST'])
+def submit_login():
+    content = request.json
+    conn = db.initialize(get_db_filename(request))
+    result = db.try_login(conn, content)
+    conn.close()
+    return Response(response=json.dumps(result), status=200, mimetype="application/json")

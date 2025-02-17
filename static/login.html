@@ -111,9 +111,9 @@
             <h2>Login</h2>
             <form id="login-form">
                 <div class="input-container">
-                    <label for="username">Username or Email</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username or email">
-                    <div id="username-error" class="error"></div>
+                    <label for="identifier">Username or Email</label>
+                    <input type="text" id="identifier" name="identifier" placeholder="Enter your username or email">
+                    <div id="identifier-error" class="error"></div>
                 </div>
                 <div class="input-container">
                     <label for="password">Password</label>
@@ -141,19 +141,19 @@
             let isValid = true;
 
             // Clear previous errors
-            document.getElementById("username-error").innerText = "";
+            document.getElementById("identifier-error").innerText = "";
             document.getElementById("password-error").innerText = "";
 
             // Get form values
-            const username = document.getElementById("username").value.trim();
-            const password = document.getElementById("password").value.trim();
+            const identifier = document.getElementById("identifier").value;
+            const password = document.getElementById("password").value;
 
             // Validate Username or Email
-            if (username === "") {
-                document.getElementById("username-error").innerText = "Username or email is required.";
+            if (identifier === "") {
+                document.getElementById("identifier-error").innerText = "Username or email is required.";
                 isValid = false;
-            } else if (!username_regex.test(username) && !email_regex.test(username)) {
-                document.getElementById("username-error").innerText = "Please enter a valid username or email address.";
+            } else if (!username_regex.test(identifier) && !email_regex.test(identifier)) {
+                document.getElementById("identifier-error").innerText = "Please enter a valid username or email address.";
                 isValid = false;
             }
 
@@ -168,7 +168,44 @@
 
             // If everything is valid, submit the form (you can replace this with actual form submission)
             if (isValid) {
-                console.log("Form submitted!");
+                fetch('/submit_login', {
+                    method: "POST",
+                    body: JSON.stringify({
+                        identifier: identifier,
+                        password: password,
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .catch(error => {
+                        console.error('There has been a problem with your fetch operation:', error);
+                    })
+                    .then(result => {
+                        console.log(result);
+                        // Clear previous errors
+                        document.getElementById("identifier-error").innerText = "";
+                        document.getElementById("password-error").innerText = "";
+                        if (result.status === "success") {
+                            alert("Successful login!");
+                        } else {
+                            if ("identifier_message" in result) {
+                                document.getElementById("identifier-error").innerText = result.identifier_message;
+                            }
+                            if ("password_message" in result) {
+                                document.getElementById("password-error").innerText = result.password_message;
+                            }
+                            if ("message" in result) {
+                                alert("Server error. This shouldn't happen. " + result.message);
+                            }
+                        }
+                    });
             }
         });
 
@@ -176,11 +213,11 @@
         document.getElementById("forgot-password-link").addEventListener("click", function(event) {
             event.preventDefault();  // Prevent the default link action
 
-            const email = document.getElementById("username").value.trim();
-            const errorElement = document.getElementById("username-error");
+            const email = document.getElementById("identifier").value;
+            const errorElement = document.getElementById("identifier-error");
 
             // Clear previous errors
-            document.getElementById("username-error").innerText = "";
+            document.getElementById("identifier-error").innerText = "";
             document.getElementById("password-error").innerText = "";
 
             if (email === "" || !email_regex.test(email)) {
