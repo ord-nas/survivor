@@ -736,7 +736,7 @@ function GeneratePlayerDiv(state, player_number, score_stream, survivor_statuses
 			   "");
 	tribe_cells.push(`<td ${class_str}>${prediction}</td>`);
       }
-      return `<tr>${episode_cell}${tribe_cells.join("")}<td>${data.voted_out_survivor}</td></tr>`;
+      return `<tr>${episode_cell}${tribe_cells.join("")}<td>${data.voted_out_survivor || ""}</td></tr>`;
     }
     const vote_out_rows = Array.from(pre_merge_votes.entries()).map(GetEpisodeVoteRow).join("\n");
     return `
@@ -757,9 +757,11 @@ function GeneratePlayerDiv(state, player_number, score_stream, survivor_statuses
       const prediction = data.player_predictions.get(player) || "";
       const class_str = (prediction === data.voted_out_survivor ?
 			 'class="standings-positive"' :
-			 'class="standings-negative"');
+                         data.voted_out_survivor !== null ?
+			 'class="standings-negative"' :
+                         '');
       const prediction_cell = `<td ${class_str}>${prediction}</td>`;
-      return `<tr>${episode_cell}${prediction_cell}<td>${data.voted_out_survivor}</td></tr>`;
+      return `<tr>${episode_cell}${prediction_cell}<td>${data.voted_out_survivor || ""}</td></tr>`;
     }
     const vote_out_rows = Array.from(post_merge_votes.entries()).map(GetEpisodeVoteRow).join("\n");
     return `
