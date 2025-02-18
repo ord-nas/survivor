@@ -20,7 +20,7 @@
 
   <div class="container">
     <nav>
-      <ul>
+      <ul id="navigation-bar">
         <li><a class="active" href="standings.html">Standings</a></li>
         <li><a href="episodes.html">Episodes</a></li>
         <li><a href="tribes.html">Tribes</a></li>
@@ -28,7 +28,6 @@
         <li><a href="players.html">Players</a></li>
         <li><a href="vote.html">Vote</a></li>
         <li><a href="account.html">Account</a></li>
-        <li><a href="admin.html">Admin</a></li>
       </ul>
     </nav>
 
@@ -133,6 +132,12 @@
                     UpdateStandings(state, score_stream);
                 };
                 UpdateStandings(state, score_stream);
+            });
+
+        GetUserState()
+            .then(user_state => {
+                var navigation_bar = document.getElementById("navigation-bar");
+                MaybeAddAdminLink(user_state, navigation_bar);
             });
     };
   </script>

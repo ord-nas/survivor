@@ -138,7 +138,9 @@ def fetch_state(conn):
         p["Username"]
         for p in get_table_contents(
             "players",
-            "SELECT Username FROM players ORDER BY Username"
+            'SELECT Username FROM players '
+            'WHERE Username != "admin" '
+            'ORDER BY LOWER(Username)'
         )
     ]
 
@@ -340,6 +342,10 @@ def try_register(conn, data):
     }
 
 def get_voting_state(username, cursor):
+    # Handle the admin case.
+    if username == "admin":
+        return { "status": "blocked_for_admin" }
+
     # Get all the potentially relevant voting events.
     cursor.execute('SELECT Episode, EventName, Survivor, Player FROM events '
                    'WHERE '
@@ -426,3 +432,24 @@ def fetch_user_state(conn, data):
         },
         "voting": get_voting_state(username, cursor),
     }
+
+def is_admin(conn, data):
+    if "username" not in data:
+        return False
+
+    if "session_id" not in data:
+        return False
+
+    username = data["username"]
+    session_id = data["session_id"]
+
+    if username != "admin":
+        return False
+
+    cursor = conn.cursor()
+    cursor.execute("SELECT Username FROM sessions "
+                   "WHERE Username = ? AND SessionId = ? "
+                   "LIMIT 1", (username, session_id))
+    matching_users = cursor.fetchall()
+
+    return len(matching_users) == 1

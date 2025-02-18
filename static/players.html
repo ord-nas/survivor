@@ -18,7 +18,7 @@
 
   <div class="container">
     <nav>
-      <ul>
+      <ul id="navigation-bar">
         <li><a href="standings.html">Standings</a></li>
         <li><a href="episodes.html">Episodes</a></li>
         <li><a href="tribes.html">Tribes</a></li>
@@ -26,7 +26,6 @@
         <li><a class="active" href="players.html">Players</a></li>
         <li><a href="vote.html">Vote</a></li>
         <li><a href="account.html">Account</a></li>
-        <li><a href="admin.html">Admin</a></li>
       </ul>
     </nav>
 
@@ -64,6 +63,12 @@
                 }
                 ActivateCollapsibles();
                 console.log();
+            });
+
+        GetUserState()
+            .then(user_state => {
+                var navigation_bar = document.getElementById("navigation-bar");
+                MaybeAddAdminLink(user_state, navigation_bar);
             });
     };
   </script>

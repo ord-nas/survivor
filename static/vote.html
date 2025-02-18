@@ -20,7 +20,7 @@
 
   <div class="container">
     <nav>
-      <ul>
+      <ul id="navigation-bar">
         <li><a href="standings.html">Standings</a></li>
         <li><a href="episodes.html">Episodes</a></li>
         <li><a href="tribes.html">Tribes</a></li>
@@ -28,7 +28,6 @@
         <li><a href="players.html">Players</a></li>
         <li><a class="active" href="vote.html">Vote</a></li>
         <li><a href="account.html">Account</a></li>
-        <li><a href="admin.html">Admin</a></li>
       </ul>
     </nav>
 
@@ -46,6 +45,7 @@
         Promise.all([GetState(), GetUserState()])
                .then(([state, user_state]) => {
                    const question_list = document.getElementById("question-list");
+                   var navigation_bar = document.getElementById("navigation-bar");
 
                    // Handle the not-logged-in case.
                    if (user_state.status !== "success") {
@@ -56,6 +56,8 @@
                        const survivor_statuses = GetSurvivorStatuses(state);
                        RegenerateVoteDivs(state, user_state, score_stream, survivor_statuses, question_list);
                    }
+
+                   MaybeAddAdminLink(user_state, navigation_bar);
                });
     };
   </script>

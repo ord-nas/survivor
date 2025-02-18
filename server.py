@@ -1,4 +1,4 @@
-from flask import Flask, request, Response, redirect, url_for
+from flask import Flask, request, Response, redirect, url_for, send_file, abort
 import json
 import os
 import survivor_database as db
@@ -79,3 +79,13 @@ def submit_register():
     result = db.try_register(conn, content)
     conn.close()
     return Response(response=json.dumps(result), status=200, mimetype="application/json")
+
+
+@app.route('/admin.html', methods=['GET'])
+def admin():
+    cookies = request.cookies
+    conn = db.initialize(get_db_filename(request))
+    if db.is_admin(conn, cookies):
+        return send_file("admin.html")
+    else:
+        return abort(403)

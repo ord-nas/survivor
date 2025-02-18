@@ -1450,8 +1450,11 @@ function RegenerateVoteDivs(state, user_state, score_stream, survivor_statuses, 
 
     list.innerHTML = "";
 
-    // Handle the voting closed case.
-    if (user_state.voting.status !== "open") {
+    // Handle the voting closed cases.
+    if (user_state.voting.status === "blocked_for_admin") {
+        list.innerHTML = "<p>Admin account cannot vote.</p>";
+        return;
+    } else if (user_state.voting.status !== "open") {
         list.innerHTML = "<p>Voting is not currently open.</p>";
         return;
     }
@@ -1783,5 +1786,13 @@ function PopulateAccountDiv(user_state, account_div) {
         document.getElementById("log-out-global").onclick = function() {
             LogOut("global");
         };
+    }
+}
+
+function MaybeAddAdminLink(user_state, navigation_bar) {
+    if (user_state.status === "success" &&
+        user_state.account.username === "admin") {
+        const admin_link = createNode('li', '<li><a href="/admin.html">Admin</a></li>');
+        navigation_bar.appendChild(admin_link);
     }
 }
