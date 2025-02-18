@@ -332,6 +332,7 @@
         {"Episode": 5, "EventName": "Predict vote out", "Survivor": "Tiyana", "Player": "Zachary"},
         {"Episode": 5, "EventName": "Predict vote out", "Survivor": "Sierra", "Player": "Zachary"},
         {"Episode": 5, "EventName": "Predict vote out", "Survivor": "Rome", "Player": "Zachary"},
+        {"Episode": 5, "EventName": "Voting closed"},
         {"Episode": 1, "EventName": "Voted out", "Survivor": "Jon"},
         {"Episode": 2, "EventName": "Voted out", "Survivor": "TK"},
         {"Episode": 3, "EventName": "Voted out", "Survivor": "Aysha"},

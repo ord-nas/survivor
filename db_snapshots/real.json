@@ -655,6 +655,8 @@
         {"Episode": 15, "EventName": "Predict vote out", "Survivor": "Sam", "Player": "Cody Smith"},
         {"Episode": 15, "EventName": "Predict vote out", "Survivor": "Sue", "Player": "Sandro"},
 
+        {"Episode": 15, "EventName": "Voting closed"},
+
         {"Episode": 2, "EventName": "Find Hidden Immunity Idol", "Survivor": "Rome"},
         {"Episode": 2, "EventName": "Find Advantage", "Survivor": "Sam"},
         {"Episode": 2, "EventName": "Find Hidden Immunity Idol", "Survivor": "Sam"},

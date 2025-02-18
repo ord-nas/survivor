@@ -463,6 +463,7 @@
         {"Episode": 8, "EventName": "Predict vote out", "Survivor": "Kyle", "Player": "BERTRAND"},
         {"Episode": 8, "EventName": "Predict vote out", "Survivor": "Kyle", "Player": "Cody Smith"},
         {"Episode": 8, "EventName": "Predict vote out", "Survivor": "Genevieve", "Player": "Mitchell"},
+        {"Episode": 8, "EventName": "Voting closed"},
         {"Episode": 1, "EventName": "Voted out", "Survivor": "Jon"},
         {"Episode": 2, "EventName": "Voted out", "Survivor": "TK"},
         {"Episode": 3, "EventName": "Voted out", "Survivor": "Aysha"},

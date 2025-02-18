@@ -76,6 +76,7 @@
         {"Episode": 5, "EventName": "Predict vote out", "Survivor": "Tiyana", "Player": "Zachary"},
         {"Episode": 5, "EventName": "Predict vote out", "Survivor": "Sierra", "Player": "Zachary"},
         {"Episode": 5, "EventName": "Predict vote out", "Survivor": "Rome", "Player": "Zachary"},
+        {"Episode": 5, "EventName": "Voting closed"},
         {"Episode": 5, "EventName": "Voted out", "Survivor": "Rome"}
     ],
     "survivors": [

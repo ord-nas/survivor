@@ -35,6 +35,7 @@
         {"Episode": 7, "EventName": "Win team immunity", "Tribe": "Blue"},
         {"Episode": 7, "EventName": "Predict vote out", "Survivor": "Andy", "Player": "Sandro"},
         {"Episode": 7, "EventName": "Predict vote out", "Survivor": "Sue", "Player": "Dawson"},
+        {"Episode": 7, "EventName": "Voting closed"},
         {"Episode": 7, "EventName": "Voted out", "Survivor": "Andy"},
         {"Episode": 8, "EventName": "Voting open"},
         {"Episode": 8, "EventName": "Predict vote out", "Survivor": "Genevieve", "Player": "Sandro"},
