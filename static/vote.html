@@ -34,10 +34,6 @@
 
     <div class="content">
       <h1>Vote</h1>
-      <label for="voter-list">Choose a player to vote:</label>
-      <select name="voter-list" id="voter-list">
-        <option value="none">---</option>
-      </select>
       <div id="question-list"></div>
     </div>
   </div>
@@ -47,22 +43,20 @@
     window.onload = function() {
         HandleDbSelection();
 
-        GetState()
-            .then(state => {
-                // Process the fetched JSON data
-                const score_stream = GenerateScoreStream(state);
-                const survivor_statuses = GetSurvivorStatuses(state);
+        Promise.all([GetState(), GetUserState()])
+               .then(([state, user_state]) => {
+                   const question_list = document.getElementById("question-list");
 
-                const voter_list = document.getElementById("voter-list");
-                const question_list = document.getElementById("question-list");
-                PopulateVoterList(state, voter_list, function(player) {
-                    if (player === null) {
-                        question_list.innerHTML = "";
-                    } else {
-                        RegenerateVoteDivs(player, state, score_stream, survivor_statuses, question_list);
-                    }
-                });
-            });
+                   // Handle the not-logged-in case.
+                   if (user_state.status !== "success") {
+                       question_list.innerHTML = '<p>You need to be logged in to vote. <a href="login.html">Click here</a> to go to the login page.</p>';
+                   } else {
+                       // Process the fetched JSON data
+                       const score_stream = GenerateScoreStream(state);
+                       const survivor_statuses = GetSurvivorStatuses(state);
+                       RegenerateVoteDivs(state, user_state, score_stream, survivor_statuses, question_list);
+                   }
+               });
     };
   </script>
 

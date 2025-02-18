@@ -332,6 +332,59 @@ def try_register(conn, data):
         }
     }
 
+def get_voting_state(username, cursor):
+    # Get all the potentially relevant voting events.
+    cursor.execute('SELECT Episode, EventName, Survivor, Player FROM events '
+                   'WHERE '
+                   '  EventName = "Voting open" OR '
+                   '  EventName = "Voting closed" OR '
+                   '  EventName = "Merge" OR '
+                   '  (Player = ? AND EventName = "Predict vote out") OR '
+                   '  (Player = ? AND EventName = "Select Sole Survivor") '
+                   'ORDER BY Episode',
+                   (username, username))
+    voting_events = [
+        {
+            "Episode": row[0],
+            "EventName": row[1],
+            "Survivor": row[2],
+            "Player": row[3],
+        }
+        for row in cursor.fetchall()
+    ]
+
+    # Check if voting is open.
+    voting_open_episode = max((e["Episode"] for e in voting_events if e["EventName"] == "Voting open"), default=0)
+    voting_closed_episode = max((e["Episode"] for e in voting_events if e["EventName"] == "Voting closed"), default=0)
+    if voting_closed_episode >= voting_open_episode:
+        return { "status": "closed" }
+
+    # Check if we are past the merge.
+    post_merge = any(e["Episode"] < voting_open_episode
+                     for e in voting_events
+                     if e["EventName"] == "Merge")
+
+    # Grab any existing sole survivor selection.
+    sole_survivor_selections = [e
+                                for e in voting_events
+                                if (e["EventName"] == "Select Sole Survivor")]
+
+    # Grab any existing vote out predictions.
+    current_predictions = [e
+                           for e in voting_events
+                           if (e["Player"] == username and
+                               e["Episode"] == voting_open_episode and
+                               e["EventName"] == "Predict vote out")]
+
+    # Assemble state.
+    return {
+        "status": "open",
+        "episode": voting_open_episode,
+        "post_merge": post_merge,
+        "sole_survivor": sole_survivor_selections[0] if sole_survivor_selections else None,
+        "current_predictions": current_predictions,
+    }
+
 def fetch_user_state(conn, data):
     """Fetches user state and returns it as a dictionary."""
 
@@ -363,5 +416,6 @@ def fetch_user_state(conn, data):
             "username": username,
             "email": email,
             "session_id": session_id,
-        }
+        },
+        "voting": get_voting_state(username, cursor),
     }

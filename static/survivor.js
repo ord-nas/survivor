@@ -1341,36 +1341,39 @@ function GetExistingVoteString(existing_votes, tribe, survivor_statuses) {
   return `You did not make a vote for the ${tribe} tribe.`;
 }
 
-function GeneratePreMergeVoteDivs(state, score_stream, survivor_statuses, sole_survivor, existing_votes, list) {
-  const tribe_containers = GenerateTribeDivs(state, score_stream, survivor_statuses, extra_info=false, selectable_if_eliminated=false);
-  for (const [tribe, container] of tribe_containers) {
-    if (existing_votes.length === 0) {
-      MakeQuestion(container, `Who do you think is going home from the ${tribe} tribe?`, "Predict vote out");
-    } else {
-      MakeStatement(container, GetExistingVoteString(existing_votes, tribe, survivor_statuses));
+function GeneratePreMergeVoteDivs(state, user_state, score_stream, survivor_statuses, list) {
+    const existing_votes = user_state.voting.current_predictions;
+    const tribe_containers = GenerateTribeDivs(state, score_stream, survivor_statuses, extra_info=false, selectable_if_eliminated=false);
+    for (const [tribe, container] of tribe_containers) {
+        if (existing_votes.length === 0) {
+            MakeQuestion(container, `Who do you think is going home from the ${tribe} tribe?`, "Predict vote out");
+        } else {
+            MakeStatement(container, GetExistingVoteString(existing_votes, tribe, survivor_statuses));
+        }
+        list.appendChild(container);
     }
-    list.appendChild(container);
-  }
-  var sole_survivor_div = GenerateSoleSurvivorDiv(state, score_stream, survivor_statuses, extra_info=false, include_eliminated=true);
-  if (sole_survivor !== "") {
-    MakeStatement(sole_survivor_div, `You selected ${sole_survivor} as your Sole Survivor.`);
-  } else if (existing_votes.length === 0) {
-    MakeQuestion(sole_survivor_div, `Who do you want to select as your Sole Survivor?`, "Select Sole Survivor");
-  } else {
-    MakeStatement(sole_survivor_div, `You opted not to select a Sole Survivor in this episode.`);
-  }
-  list.appendChild(sole_survivor_div);
+    var sole_survivor_div = GenerateSoleSurvivorDiv(state, score_stream, survivor_statuses, extra_info=false, include_eliminated=true);
+    const sole_survivor = user_state.voting.sole_survivor === null ? "" : user_state.voting.sole_survivor.Survivor;
+    if (sole_survivor !== "") {
+        MakeStatement(sole_survivor_div, `You selected ${sole_survivor} as your Sole Survivor.`);
+    } else if (existing_votes.length === 0) {
+        MakeQuestion(sole_survivor_div, `Who do you want to select as your Sole Survivor?`, "Select Sole Survivor");
+    } else {
+        MakeStatement(sole_survivor_div, `You opted not to select a Sole Survivor in this episode.`);
+    }
+    list.appendChild(sole_survivor_div);
 }
 
-function GeneratePostMergeVoteDivs(state, score_stream, survivor_statuses, existing_votes, list) {
-  var vote_out_div = GenerateSoleSurvivorDiv(state, score_stream, survivor_statuses, extra_info=false, include_eliminated=false);
-  vote_out_div.querySelector(".tribe-header").innerHTML = "Vote Out";
-  if (existing_votes.length == 0) {
-    MakeQuestion(vote_out_div, `Who do you think is going home?`, "Predict vote out");
-  } else {
-    MakeStatement(vote_out_div, `You voted that ${existing_votes[0].Survivor} would go home this episode.`);
-  }
-  list.appendChild(vote_out_div);
+function GeneratePostMergeVoteDivs(state, user_state, score_stream, survivor_statuses, list) {
+    const existing_votes = user_state.voting.current_predictions;
+    var vote_out_div = GenerateSoleSurvivorDiv(state, score_stream, survivor_statuses, extra_info=false, include_eliminated=false);
+    vote_out_div.querySelector(".tribe-header").innerHTML = "Vote Out";
+    if (existing_votes.length == 0) {
+        MakeQuestion(vote_out_div, `Who do you think is going home?`, "Predict vote out");
+    } else {
+        MakeStatement(vote_out_div, `You voted that ${existing_votes[0].Survivor} would go home this episode.`);
+    }
+    list.appendChild(vote_out_div);
 }
 
 function GetLastVotingStatusEvent(events) {
@@ -1440,77 +1443,47 @@ function SubmitVotes(votes, episode, player) {
   });
 }
 
-function RegenerateVoteDivs(player, state, score_stream, survivor_statuses, list) {
-  const events = state.events;
+function RegenerateVoteDivs(state, user_state, score_stream, survivor_statuses, list) {
+    const events = state.events;
 
-  list.innerHTML = "";
+    list.innerHTML = "";
 
-  // Get a bunch of data needed to determine what to put on the voting page.
-  const last_voting_event = GetLastVotingStatusEvent(events);
-  const episode = last_voting_event === null ? 0 : last_voting_event.Episode;
-  const existing_votes = events.filter(e => IsVoteEvent(e) && e.Episode === episode && e.Player === player);
-  const merge = events.filter(e => e.EventName === "Merge").length > 0;
-  var sole_survivor = "";
-  for (const [survivor, status] of survivor_statuses) {
-    if (status.players.includes(player)) {
-      sole_survivor = survivor;
+    // Handle the voting closed case.
+    if (user_state.voting.status !== "open") {
+        list.innerHTML = "<p>Voting is not currently open.</p>";
+        return;
     }
-  }
 
-  if (last_voting_event === null || last_voting_event.EventName === "Voting closed") {
-    list.innerHTML = "<p>Voting is not currently open.</p>";
-    return;
-  }
+    if (user_state.voting.post_merge) {
+        GeneratePostMergeVoteDivs(state, user_state, score_stream, survivor_statuses, list);
+    } else {
+        GeneratePreMergeVoteDivs(state, user_state, score_stream, survivor_statuses, list);
+    }
 
-  if (merge) {
-    GeneratePostMergeVoteDivs(state, score_stream, survivor_statuses, existing_votes, list);
-  } else {
-    GeneratePreMergeVoteDivs(state, score_stream, survivor_statuses, sole_survivor, existing_votes, list);
-  }
-
-  if (existing_votes.length === 0) {
-    var node = createNode('div', `
+    if (user_state.voting.current_predictions.length === 0) {
+        var node = createNode('div', `
         <div class="button-container">
           <div>
             <button class="action-button">Vote</button>
           </div>
         </div>`);
-    var button = node.querySelector(".action-button");
-    button.onclick = function() {
-      const voting_result = ExtractVotingResult(list);
-      console.log(voting_result);
-      if (voting_result.errors.length > 0) {
-	alert("Error: " + voting_result.errors.join(" "));
-      } else {
-	SubmitVotes(voting_result.votes, episode, player)
-	    .then(unused_data => {
-	      window.location.reload();
-	    });
-      }
-    };
-    list.appendChild(node);
-  }
-
-  console.log("sole_survivor", player, survivor_statuses, sole_survivor);
-}
-
-function PopulateVoterList(state, voter_list, callback) {
-  var value_to_player = new Map();
-  for (var player_number in state.players) {
-    const player = state.players[player_number];
-    const node = createNode('option', player);
-    node.value = `player${player_number}`;
-    voter_list.appendChild(node);
-    value_to_player.set(node.value, player);
-  }
-  voter_list.onchange = function() {
-    const value = voter_list.value;
-    if (value === "none") {
-      callback(null);
-    } else {
-      callback(value_to_player.get(value));
+        var button = node.querySelector(".action-button");
+        button.onclick = function() {
+            const voting_result = ExtractVotingResult(list);
+            console.log(voting_result);
+            if (voting_result.errors.length > 0) {
+	        alert("Error: " + voting_result.errors.join(" "));
+            } else {
+	        SubmitVotes(voting_result.votes,
+                            user_state.voting.episode,
+                            user_state.account.username)
+	            .then(unused_data => {
+	                window.location.reload();
+	            });
+            }
+        };
+        list.appendChild(node);
     }
-  }
 }
 
 function GetCookie(name) {
