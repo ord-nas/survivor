@@ -99,8 +99,9 @@ def add_row(conn, table_name, data):
 
 def hide_open_voting_round(events):
     voting_closed_episode = max((e["Episode"] for e in events if e["EventName"] == "Voting closed"), default=0)
+    events_to_hide = set(["Predict vote out", "Select Sole Survivor"])
     return [e for e in events
-            if (e["EventName"] != "Predict vote out" or
+            if (e["EventName"] not in events_to_hide or
                 e["Episode"] <= voting_closed_episode)]
 
 def fetch_state(conn):
