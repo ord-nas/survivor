@@ -47,7 +47,7 @@ def get_user_state():
 def submit_votes():
     content = request.json
     conn = db.initialize(get_db_filename(request))
-    add_vote_events(conn, content)
+    db.add_vote_events(conn, content)
     conn.close()
     response = json.dumps({"status": "ok"})
     return Response(response=response, status=200, mimetype="application/json")
