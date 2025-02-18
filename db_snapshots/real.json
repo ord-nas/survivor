@@ -39,7 +39,7 @@
         {"Episode": 2, "EventName": "Select Sole Survivor", "Player": "Jacob", "Survivor": "Kishan"},
         {"Episode": 2, "EventName": "Select Sole Survivor", "Player": "Ian Nally", "Survivor": "Tiyana"},
         {"Episode": 2, "EventName": "Select Sole Survivor", "Player": "Mitchell", "Survivor": "TK"},
-        
+
         {"Episode": 2, "EventName": "Predict vote out", "Survivor": "Gabe", "Player": "Dawson"},
         {"Episode": 2, "EventName": "Predict vote out", "Survivor": "Sam", "Player": "Dawson"},
         {"Episode": 2, "EventName": "Predict vote out", "Survivor": "Genevieve", "Player": "Dawson"},
@@ -732,7 +732,7 @@
         {"Episode": 12, "EventName": "Voted out", "Survivor": "Caroline"},
         {"Episode": 13, "EventName": "Voted out", "Survivor": "Andy"},
         {"Episode": 14, "EventName": "Voted out", "Survivor": "Genevieve"},
-        
+
         {"Episode": 6, "EventName": "Merge"},
         {"Episode": 15, "EventName": "Lost fire", "Survivor": "Teeny"},
         {"Episode": 15, "EventName": "Sole Survivor", "Survivor": "Rachel"}
