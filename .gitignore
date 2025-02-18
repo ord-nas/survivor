@@ -7,3 +7,6 @@ __pycache__/
 
 # The python virtual environment
 .venv
+
+# SQLite databases
+db
