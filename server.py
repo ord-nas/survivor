@@ -70,3 +70,12 @@ def submit_logout():
     result = db.try_logout(conn, content, cookies)
     conn.close()
     return Response(response=json.dumps(result), status=200, mimetype="application/json")
+
+
+@app.route('/submit_register', methods=['POST'])
+def submit_register():
+    content = request.json
+    conn = db.initialize(get_db_filename(request))
+    result = db.try_register(conn, content)
+    conn.close()
+    return Response(response=json.dumps(result), status=200, mimetype="application/json")

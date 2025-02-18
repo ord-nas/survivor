@@ -424,5 +424,8 @@
             "Email": "alex.chibly@gmail.com",
             "PasswordHash": "$pbkdf2-sha256$29000$T8m5l1JKCSHEuJcSIoTQOg$.UxOuUsjjhDBpw6.caByCh3X/qMZdcTcRGILGx98fUU"
         }
+    ],
+    "invitations": [
+        {"InviteCode": "test_invite"}
     ]
 }

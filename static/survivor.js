@@ -1576,7 +1576,7 @@ function InstallLoginLogic({
             isValid = false;
         }
 
-        // If everything is valid, submit the form (you can replace this with actual form submission)
+        // If everything is valid, submit the form.
         if (isValid) {
             fetch('/submit_login', {
                 method: "POST",
@@ -1635,6 +1635,126 @@ function InstallLoginLogic({
             identifier_error_elm.innerText = "You must enter an email address to get a password reset link.";
         } else {
             alert("Password reset not implemented yet, oops!");
+        }
+    });
+}
+
+function InstallRegisterLogic({
+    form_elm,
+    username_elm,
+    email_elm,
+    password_elm,
+    password_confirm_elm,
+    username_error_elm,
+    email_error_elm,
+    password_error_elm,
+    password_confirm_error_elm,
+}={}) {
+    form_elm.addEventListener("submit", function(event) {
+        event.preventDefault();  // Prevent form submission
+
+        let isValid = true;
+
+        // Clear previous errors
+        username_error_elm.innerText = "";
+        email_error_elm.innerText = "";
+        password_error_elm.innerText = "";
+        password_confirm_error_elm.innerText = "";
+
+        // Get form values
+        const username = username_elm.value;
+        const email = email_elm.value;
+        const password = password_elm.value;
+        const password_confirm = password_confirm_elm.value;
+
+        // Validate Username
+        if (username === "") {
+            username_error_elm.innerText = "Name is required.";
+            isValid = false;
+        } else if (!USERNAME_REGEX.test(username)) {
+            username_error_elm.innerText = "Invalid character in name.";
+            isValid = false;
+        }
+
+        // Validate Email
+        if (email === "") {
+            email_error_elm.innerText = "Email is required.";
+            isValid = false;
+        } else if (!EMAIL_REGEX.test(email)) {
+            email_error_elm.innerText = "Please enter a valid email.";
+            isValid = false;
+        }
+
+        // Validate Password
+        if (password === "") {
+            password_error_elm.innerText = "Password is required.";
+            isValid = false;
+        } else if (!PASSWORD_REGEX.test(password)) {
+            password_error_elm.innerText = "Invalid character in password.";
+            isValid = false;
+        }
+
+        // Validate Password Confirm
+        if (password !== password_confirm) {
+            password_confirm_error_elm.innerText = "Passwords must match.";
+            isValid = false;
+        }
+
+        // If everything is valid, submit the form.
+        if (isValid) {
+            const query_string = window.location.search;
+            const url_params = new URLSearchParams(query_string);
+            var invite_code = url_params.get('invite_code');
+            if (invite_code === null || invite_code === undefined) {
+                invite_code = "";
+            }
+            fetch('/submit_register', {
+                method: "POST",
+                body: JSON.stringify({
+                    username: username,
+                    email: email,
+                    password: password,
+                    invite_code: invite_code,
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                })
+                .then(result => {
+                    console.log(result);
+                    // Clear previous errors
+                    username_error_elm.innerText = "";
+                    email_error_elm.innerText = "";
+                    password_error_elm.innerText = "";
+                    password_confirm_error_elm.innerText = "";
+                    if (result.status === "success") {
+                        document.cookie = `username=${result.account.username};path=/`;
+                        document.cookie = `session_id=${result.account.session_id};path=/`;
+                        window.location.href = 'account.html';
+                    } else {
+                        if ("username_message" in result) {
+                            username_error_elm.innerText = result.username_message;
+                        }
+                        if ("email_message" in result) {
+                            email_error_elm.innerText = result.email_message;
+                        }
+                        if ("password_message" in result) {
+                            password_error_elm.innerText = result.password_message;
+                        }
+                        if ("message" in result) {
+                            alert(result.message);
+                        }
+                    }
+                });
         }
     });
 }

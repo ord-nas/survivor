@@ -44,6 +44,9 @@ TABLES = {
         ("Username", "TEXT"),
         ("SessionId", "TEXT"),
     ],
+    "invitations": [
+        ("InviteCode", "TEXT"),
+    ]
 }
 
 USERNAME_REGEX = r'^[a-zA-Z0-9._\- ]+$'
@@ -246,6 +249,88 @@ def try_logout(conn, content, cookies):
         return { "status": "error", "message": "Invalid request, invalid scope." }
 
     return { "status": "success" }
+
+def try_register(conn, data):
+    if "username" not in data:
+        return { "status": "error", "message": "Invalid request, missing username." }
+
+    if "email" not in data:
+        return { "status": "error", "message": "Invalid request, missing email." }
+
+    if "password" not in data:
+        return { "status": "error", "message": "Invalid request, missing password." }
+
+    if "invite_code" not in data:
+        return { "status": "error", "message": "Invalid request, missing invite code." }
+
+    username = data["username"]
+    email = data["email"]
+    password = data["password"]
+    invite_code = data["invite_code"]
+
+    valid_username = re.match(USERNAME_REGEX, username) is not None
+    valid_email = re.match(EMAIL_REGEX, email) is not None
+    valid_password = re.match(PASSWORD_REGEX, password) is not None
+
+    if not valid_username or not valid_email or not valid_password:
+        result = { "status": "error" }
+        if not valid_username:
+            if username == "":
+                result["username_message"] = "Name is required."
+            else:
+                result["username_message"] = "Invalid character in name."
+        if not valid_email:
+            if email == "":
+                result["email_message"] = "Email is required."
+            else:
+                result["email_message"] = "Please enter a valid email."
+        if not valid_password:
+            if password == "":
+                result["password_message"] = "Password is required."
+            else:
+                result["password_message"] = "Invalid character in password."
+        return result
+
+    cursor = conn.cursor()
+    cursor.execute("SELECT InviteCode FROM invitations "
+                   "WHERE InviteCode = ?", (invite_code,))
+    matching_invites = cursor.fetchall()
+
+    if len(matching_invites) == 0:
+        return { "status": "error", "message": "Missing or invalid invite code. Are you using the right registration URL?" }
+
+    cursor = conn.cursor()
+    cursor.execute("SELECT Username, Email FROM players "
+                   "WHERE Username = ? OR EMAIL = ?", (username, email))
+    matching_players = cursor.fetchall()
+
+    if len(matching_players) != 0:
+        existing_usernames = set(row[0] for row in matching_players)
+        existing_emails = set(row[1] for row in matching_players)
+        result = { "status": "error" }
+        if username in existing_usernames:
+            result["username_message"] = "There is already an account with that name."
+        if email in existing_emails:
+            result["email_message"] = "There is already an account with that email."
+        return result
+
+    password_hash = pbkdf2_sha256.hash(password)
+
+    cursor.execute("INSERT INTO players VALUES (?, ?, ?)", (username, email, password_hash))
+    conn.commit()
+
+    session_id = secrets.token_hex()
+    cursor.execute("INSERT INTO sessions VALUES (?, ?)", (username, session_id))
+    conn.commit()
+
+    return {
+        "status": "success",
+        "account": {
+            "username": username,
+            "email": email,
+            "session_id": session_id,
+        }
+    }
 
 def fetch_user_state(conn, data):
     """Fetches user state and returns it as a dictionary."""
