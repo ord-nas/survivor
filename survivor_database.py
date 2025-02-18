@@ -97,6 +97,12 @@ def add_row(conn, table_name, data):
     cursor.execute(sql, values)
     conn.commit()
 
+def hide_open_voting_round(events):
+    voting_closed_episode = max((e["Episode"] for e in events if e["EventName"] == "Voting closed"), default=0)
+    return [e for e in events
+            if (e["EventName"] != "Predict vote out" or
+                e["Episode"] <= voting_closed_episode)]
+
 def fetch_state(conn):
     """Fetches survivor state and returns it as a dictionary."""
 
@@ -115,10 +121,10 @@ def fetch_state(conn):
 
     # Convert dictionary.
     data = {}
-    data["events"] = get_table_contents(
+    data["events"] = hide_open_voting_round(get_table_contents(
         "events",
         "SELECT * FROM events ORDER BY Episode"
-    )
+    ))
     data["survivors"] = get_table_contents(
         "survivors",
         "SELECT * FROM survivors ORDER BY Name"
