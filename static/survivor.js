@@ -505,11 +505,11 @@ function GenerateEpisodeDiv(state, episode_number, score_stream, metadatas, pre_
       const player_cell = `<td>${player}</td>`;
       const tribe_cells = [];
       for (const tribe of tribes) {
-	const prediction = predictions.get(tribe) || "";
-	const class_str = (prediction === episode_data.voted_out_survivor ?
-			   'class="standings-positive"' :
-			   "");
-	tribe_cells.push(`<td ${class_str}>${prediction}</td>`);
+        const prediction = predictions.get(tribe) || "";
+        const class_str = (prediction === episode_data.voted_out_survivor ?
+                           'class="standings-positive"' :
+                           "");
+        tribe_cells.push(`<td ${class_str}>${prediction}</td>`);
       }
       return `<tr>${player_cell}${tribe_cells.join("")}</tr>`;
     }
@@ -531,8 +531,8 @@ function GenerateEpisodeDiv(state, episode_number, score_stream, metadatas, pre_
     function GetPlayerVoteRow([player, prediction]) {
       const player_cell = `<td>${player}</td>`;
       const class_str = (prediction === episode_data.voted_out_survivor ?
-			 'class="standings-positive"' :
-			 "");
+                         'class="standings-positive"' :
+                         "");
       const prediction_cell = `<td ${class_str}>${prediction}</td>`;
       return `<tr>${player_cell}${prediction_cell}</tr>`;
     }
@@ -599,21 +599,21 @@ function AddEpisodeHtml(state, episode_number, score_stream, metadatas, pre_merg
     data: {
       labels: Array.from(survivor_to_count.keys()),
       datasets: [
-	{
-	  data: Array.from(survivor_to_count.values()),
-	}
+        {
+          data: Array.from(survivor_to_count.values()),
+        }
       ]
     },
     options: {
       responsive: true,
       plugins: {
-	legend: {
+        legend: {
           position: 'top',
-	},
-	title: {
+        },
+        title: {
           display: true,
           text: 'Vote Distribution'
-	}
+        }
       }
     },
   });
@@ -621,8 +621,8 @@ function AddEpisodeHtml(state, episode_number, score_stream, metadatas, pre_merg
 
 function StatusHtml(status) {
   return ("elimination_method" in status ?
-	  `<span class="points-negative">${status.elimination_method} (Episode ${status.last_episode})</span>` :
-	  `<span class="points-positive">Still playing</span>`);
+          `<span class="points-negative">${status.elimination_method} (Episode ${status.last_episode})</span>` :
+          `<span class="points-positive">Still playing</span>`);
 }
 
 function GenerateSurvivorDiv(state, survivor_number, score_stream, survivor_statuses) {
@@ -743,13 +743,13 @@ function GeneratePlayerDiv(state, player_number, score_stream, survivor_statuses
       const tribe_cells = [];
       const predictions = data.player_predictions.get(player);
       for (const tribe of tribes) {
-	const prediction = predictions.get(tribe) || "";
-	const class_str = (prediction === data.voted_out_survivor ?
-			   'class="standings-positive"' :
-			   tribe === data.voted_out_tribe ?
-			   'class="standings-negative"' :
-			   "");
-	tribe_cells.push(`<td ${class_str}>${prediction}</td>`);
+        const prediction = predictions.get(tribe) || "";
+        const class_str = (prediction === data.voted_out_survivor ?
+                           'class="standings-positive"' :
+                           tribe === data.voted_out_tribe ?
+                           'class="standings-negative"' :
+                           "");
+        tribe_cells.push(`<td ${class_str}>${prediction}</td>`);
       }
       return `<tr>${episode_cell}${tribe_cells.join("")}<td>${data.voted_out_survivor || ""}</td></tr>`;
     }
@@ -771,9 +771,9 @@ function GeneratePlayerDiv(state, player_number, score_stream, survivor_statuses
       const episode_cell = `<td>${episode}</td>`;
       const prediction = data.player_predictions.get(player) || "";
       const class_str = (prediction === data.voted_out_survivor ?
-			 'class="standings-positive"' :
+                         'class="standings-positive"' :
                          data.voted_out_survivor !== null ?
-			 'class="standings-negative"' :
+                         'class="standings-negative"' :
                          '');
       const prediction_cell = `<td ${class_str}>${prediction}</td>`;
       return `<tr>${episode_cell}${prediction_cell}<td>${data.voted_out_survivor || ""}</td></tr>`;
@@ -793,13 +793,13 @@ function GeneratePlayerDiv(state, player_number, score_stream, survivor_statuses
 
   const survivor_headshot = (
       status === null ?
-	"" :
-	'<div class="sole-survivor-headshot"></div>');
+        "" :
+        '<div class="sole-survivor-headshot"></div>');
   const spacer = (status === null ? "" : "<br/><br/>");
   const sole_survivor_html =
-	(status === null ?
-	 "Not selected" :
-	 `${status.survivor} (selected before episode ${status.player_to_selection_episode.get(player)})`);
+        (status === null ?
+         "Not selected" :
+         `${status.survivor} (selected before episode ${status.player_to_selection_episode.get(player)})`);
   const html = `
               <h2 id="player${player_number}">${player}</h2>
               <div class="item-container">
@@ -874,44 +874,44 @@ function AddPlayerHtml(state, player_number, score_stream, survivor_statuses, pr
     data: {
       labels: episodes,
       datasets: [
-	{
-	  label: 'Sole Survivor',
-	  data: cumulative_sole_survivor.slice(1),
-	  fill: true
-	},
-	{
-	  label: 'Voting',
-	  data: cumulative_voting.slice(1),
-	  fill: true
-	},
+        {
+          label: 'Sole Survivor',
+          data: cumulative_sole_survivor.slice(1),
+          fill: true
+        },
+        {
+          label: 'Voting',
+          data: cumulative_voting.slice(1),
+          fill: true
+        },
       ]
     },
     options: {
       responsive: true,
       plugins: {
-	tooltip: {
+        tooltip: {
           mode: 'index'
-	},
+        },
       },
       interaction: {
-	mode: 'nearest',
-	axis: 'x',
-	intersect: false
+        mode: 'nearest',
+        axis: 'x',
+        intersect: false
       },
       scales: {
-	x: {
+        x: {
           title: {
             display: true,
             text: 'Episode'
           }
-	},
-	y: {
+        },
+        y: {
           stacked: true,
           title: {
             display: true,
             text: 'Score'
           }
-	}
+        }
       }
     }
   });
@@ -1057,22 +1057,22 @@ function GenerateStandings(state, score_stream, max_episode=10000) {
       standing.points_per_episode[s.db_event.Episode] += s.points;
 
       if (s.rubric_entry.tags.includes("voting")) {
-	standing.points_per_episode_voting[s.db_event.Episode] += s.points;
+        standing.points_per_episode_voting[s.db_event.Episode] += s.points;
       } else {
-	standing.points_per_episode_sole_survivor[s.db_event.Episode] += s.points;
+        standing.points_per_episode_sole_survivor[s.db_event.Episode] += s.points;
       }
 
       if (s.rubric_entry.tags.includes("challenges") && !merge) {
-	standing.pre_merge_challenge += s.points;
+        standing.pre_merge_challenge += s.points;
       } else if (s.rubric_entry.tags.includes("challenges") && merge) {
-	standing.post_merge_challenge += s.points;
+        standing.post_merge_challenge += s.points;
       } else if (s.rubric_entry.tags.includes("idols_advantages")) {
-	standing.clues_idols += s.points;
+        standing.clues_idols += s.points;
       } else if (s.rubric_entry.tags.includes("placing")) {
-	standing.placing += s.points;
+        standing.placing += s.points;
       } else if (s.rubric_entry.tags.includes("voting")) {
-	standing.vote_out += s.points;
-	standing.points_per_vote_out[current_vote_out] += s.points;
+        standing.vote_out += s.points;
+        standing.points_per_vote_out[current_vote_out] += s.points;
       }
     }
     if (s.db_event.EventName === "Merge") {
@@ -1129,11 +1129,11 @@ function GenerateStandings(state, score_stream, max_episode=10000) {
   function PlayerRow(standing) {
     const survivor_info = standing.sole_survivor_info;
     const sole_survivor_cell =
-	  survivor_info === undefined ?
-	  `<td class="missing-sole-survivor">N/A</td>` :
-	  survivor_info.active ?
-	  `<td>${survivor_info.survivor}</td>` :
-	  `<td class="eliminated-sole-survivor">${survivor_info.survivor}</td>`;
+          survivor_info === undefined ?
+          `<td class="missing-sole-survivor">N/A</td>` :
+          survivor_info.active ?
+          `<td>${survivor_info.survivor}</td>` :
+          `<td class="eliminated-sole-survivor">${survivor_info.survivor}</td>`;
     const basic_cells = `
          <td>${standing.rank}</td>
          <td>${standing.player}</td>
@@ -1184,9 +1184,9 @@ function ActivateCollapsibles() {
       this.classList.toggle("active-collapsible");
       var content = this.nextElementSibling;
       if (content.style.maxHeight){
-	content.style.maxHeight = null;
+        content.style.maxHeight = null;
       } else {
-	content.style.maxHeight = content.scrollHeight + "px";
+        content.style.maxHeight = content.scrollHeight + "px";
       }
     });
   }
@@ -1197,7 +1197,7 @@ function GenerateHeadshotDivForTribe(survivor, score_stream, survivor_statuses, 
   var score_items = score_stream.filter(s => s.survivors.includes(survivor.Name));
   var total_score = score_items.reduce((accumulator, s) => accumulator + s.points, 0);
   const extra_info_html = extra_info ?
-	`
+        `
               <p>Score: ${PointsCell(total_score, container='span', include_plus=false)}</p>
               <p>Players: ${status.players.length}</p>
         ` : "";
@@ -1333,10 +1333,10 @@ function MakeQuestion(container, question_html, event_type) {
     selection.addEventListener("click", function() {
       const selected = selection.classList.contains("selected");
       for (const siblings of this.parentElement.querySelectorAll(".headshot-container")) {
-	siblings.classList.remove("selected");
+        siblings.classList.remove("selected");
       }
       if (!selected) {
-	this.classList.add("selected");
+        this.classList.add("selected");
       }
     });
   }
@@ -1405,8 +1405,8 @@ function GetLastVotingStatusEvent(events) {
 
 function IsVoteEvent(e) {
   return (e.EventName === "Predict vote out" ||
-	  e.EventName == "Predict fire loser" ||
-	  e.EventName === "Select Sole Survivor");
+          e.EventName == "Predict fire loser" ||
+          e.EventName === "Select Sole Survivor");
 }
 
 function ExtractVotingResult(list){
@@ -1421,13 +1421,13 @@ function ExtractVotingResult(list){
     var survivor = question.querySelector(".selected")?.querySelector(".survivor-vote-name")?.innerHTML;
     if (survivor === null || survivor === undefined) {
       if (event_type === "Predict vote out") {
-	const question_text = question.querySelector(".tribe-header")?.innerHTML;
-	errors.push(`You must make a selection for ${question_text}.`);
+        const question_text = question.querySelector(".tribe-header")?.innerHTML;
+        errors.push(`You must make a selection for ${question_text}.`);
       }
     } else {
       votes.push({
-	event_type: event_type,
-	survivor: survivor,
+        event_type: event_type,
+        survivor: survivor,
       });
     }
   }
@@ -1450,7 +1450,7 @@ function SubmitVotes(votes, episode, player) {
     }
   }).then(response => {
       if (!response.ok) {
-	  alert("Server error");
+          alert("Server error");
           throw new Error('Network response was not ok');
       }
       return response.json(); // Parse the response as JSON
@@ -1492,14 +1492,14 @@ function RegenerateVoteDivs(state, user_state, score_stream, survivor_statuses, 
             const voting_result = ExtractVotingResult(list);
             console.log(voting_result);
             if (voting_result.errors.length > 0) {
-	        alert("Error: " + voting_result.errors.join(" "));
+                alert("Error: " + voting_result.errors.join(" "));
             } else {
-	        SubmitVotes(voting_result.votes,
+                SubmitVotes(voting_result.votes,
                             user_state.voting.episode,
                             user_state.account.username)
-	            .then(unused_data => {
-	                window.location.reload();
-	            });
+                    .then(unused_data => {
+                        window.location.reload();
+                    });
             }
         };
         list.appendChild(node);
@@ -1763,7 +1763,7 @@ function LogOut(scope) {
         }
     }).then(response => {
         if (!response.ok) {
-	    alert("Server error");
+            alert("Server error");
             throw new Error('Network response was not ok');
         }
         return response.json(); // Parse the response as JSON
