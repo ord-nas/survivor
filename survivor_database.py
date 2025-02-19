@@ -7,6 +7,8 @@ DEFAULT_DATABASE_NAME = "real.db"
 
 TABLES = {
     "events": [
+        ("Id", "INTEGER PRIMARY KEY AUTOINCREMENT"),
+        ("CreationTimestamp", "TEXT DEFAULT CURRENT_TIMESTAMP"),
         ("EventName", "TEXT"),
         ("Episode", "INTEGER"),
         ("Survivor", "TEXT"),
@@ -36,15 +38,18 @@ TABLES = {
         ("Color", "TEXT"),
     ],
     "players": [
+        ("CreationTimestamp", "TEXT DEFAULT CURRENT_TIMESTAMP"),
         ("Username", "TEXT"),
         ("Email", "TEXT"),
         ("PasswordHash", "TEXT"),
     ],
     "sessions": [
+        ("CreationTimestamp", "TEXT DEFAULT CURRENT_TIMESTAMP"),
         ("Username", "TEXT"),
         ("SessionId", "TEXT"),
     ],
     "invitations": [
+        ("CreationTimestamp", "TEXT DEFAULT CURRENT_TIMESTAMP"),
         ("InviteCode", "TEXT"),
     ]
 }
@@ -87,13 +92,11 @@ def initialize(db_name=DEFAULT_DATABASE_NAME, reset=False):
 def add_row(conn, table_name, data):
     """Adds a new row to the given table."""
     cursor = conn.cursor()
-    def get(col):
-        name, data_type = col
-        return data.get(name, None)
-    columns = TABLES[table_name]
-    values = [get(c) for c in columns]
+    kvs = list(data.items())
+    columns = [k for (k, v) in kvs]
+    values = [v for (k, v) in kvs]
     placeholders = ",".join(["?"] * len(columns))
-    sql = f"INSERT INTO {table_name} VALUES ({placeholders})"
+    sql = f"INSERT INTO {table_name} ({','.join(columns)}) VALUES ({placeholders})"
     cursor.execute(sql, values)
     conn.commit()
 
@@ -124,7 +127,7 @@ def fetch_state(conn):
     data = {}
     data["events"] = hide_open_voting_round(get_table_contents(
         "events",
-        "SELECT * FROM events ORDER BY Episode"
+        "SELECT * FROM events ORDER BY Episode, Id"
     ))
     data["survivors"] = get_table_contents(
         "survivors",
@@ -138,9 +141,9 @@ def fetch_state(conn):
         p["Username"]
         for p in get_table_contents(
             "players",
-            'SELECT Username FROM players '
+            'SELECT * FROM players '
             'WHERE Username != "admin" '
-            'ORDER BY LOWER(Username)'
+            'ORDER BY LOWER(Username)',
         )
     ]
 
@@ -205,7 +208,7 @@ def try_login(conn, data):
         }
 
     session_id = secrets.token_hex()
-    cursor.execute("INSERT INTO sessions VALUES (?, ?)", (username, session_id))
+    cursor.execute("INSERT INTO sessions (Username, SessionId) VALUES (?, ?)", (username, session_id))
     conn.commit()
 
     return {
@@ -325,11 +328,11 @@ def try_register(conn, data):
 
     password_hash = pbkdf2_sha256.hash(password)
 
-    cursor.execute("INSERT INTO players VALUES (?, ?, ?)", (username, email, password_hash))
+    cursor.execute("INSERT INTO players (Username, Email, PasswordHash) VALUES (?, ?, ?)", (username, email, password_hash))
     conn.commit()
 
     session_id = secrets.token_hex()
-    cursor.execute("INSERT INTO sessions VALUES (?, ?)", (username, session_id))
+    cursor.execute("INSERT INTO sessions (Username, SessionId) VALUES (?, ?)", (username, session_id))
     conn.commit()
 
     return {
@@ -354,7 +357,7 @@ def get_voting_state(username, cursor):
                    '  EventName = "Merge" OR '
                    '  (Player = ? AND EventName = "Predict vote out") OR '
                    '  (Player = ? AND EventName = "Select Sole Survivor") '
-                   'ORDER BY Episode',
+                   'ORDER BY Episode, Id',
                    (username, username))
     voting_events = [
         {
@@ -453,3 +456,39 @@ def is_admin(conn, data):
     matching_users = cursor.fetchall()
 
     return len(matching_users) == 1
+
+def fetch_admin_state(conn):
+    """Fetches admin state and returns it as a dictionary."""
+
+    def get_table_contents(table_name, sql, columns=None):
+        if columns is None:
+            columns = [c[0] for c in TABLES[table_name]]
+        contents = []
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        for row in cursor.fetchall():
+            contents.append({
+                name : value
+                for (name, value) in zip(columns, row)
+                if value is not None
+            })
+        return contents
+
+    # Convert dictionary.
+    data = {}
+    data["events"] = get_table_contents(
+        "events",
+        "SELECT * FROM events ORDER BY Episode, Id"
+    )
+    data["players"] = get_table_contents(
+        "players",
+        'SELECT CreationTimestamp, Username, Email FROM players '
+        'ORDER BY LOWER(Username)',
+        columns=["CreationTimestsamp", "Username", "Email"]
+    )
+    data["invitations"] = get_table_contents(
+        "invitations",
+        'SELECT * FROM invitations'
+    )
+
+    return data

@@ -439,6 +439,21 @@ function GetUserState() {
       });
 }
 
+function GetAdminState() {
+    const url = '/admin_state';
+    return fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                console.log(response);
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .catch(error => {
+            alert("Bad server response, check console for details");
+        });
+}
+
 function createNode(node_type, html) {
   const node = document.createElement(node_type);
   node.innerHTML = html;
@@ -1796,3 +1811,72 @@ function MaybeAddAdminLink(user_state, navigation_bar) {
         navigation_bar.appendChild(admin_link);
     }
 }
+
+function PopulateAdminEvents(admin_state, events_div) {
+    events_div.innerHTML = "";
+    function GetEventRow(event) {
+        var props = [];
+        for (const [key, value] of Object.entries(event)) {
+            if (key === "Id" ||
+                key === "CreationTimestamp" ||
+                key === "Episode" ||
+                key === "EventName") {
+                continue;
+            }
+            if (typeof value === 'number') {
+                props.push(`<strong>${key}</strong>=${value}`);
+            } else {
+                props.push(`<strong>${key}</strong>="${value}"`);
+            }
+        }
+        return `
+                  <tr>
+                    <td><input type="checkbox" data-event-id="${event.Id}" /></td>
+                    <td>${event.Id}</td>
+                    <td>${event.CreationTimestamp}</td>
+                    <td>${event.Episode}</td>
+                    <td>${event.EventName}</td>
+                    <td>${props.join(", ")}</td>
+                  </tr>
+                `;
+    }
+    const rows = admin_state.events
+          .filter(e => e.EventName !== "Predict vote out" &&
+                  e.EventName !== "Select Sole Survivor")
+          .map(GetEventRow)
+          .join("\n");
+    const html = `
+          <table id="admin-events-table" class="admin-table">
+                <tr>
+                  <th></th>
+                  <th>Id</th>
+                  <th>CreationTimestamp</th>
+                  <th>Episode</th>
+                  <th>EventName</th>
+                  <th>Properties</th>
+                </tr>
+            ${rows}
+          </table>
+          <br/>
+          <div class="button-container">
+            <div>
+              <button class="action-button negative" id="delete-events">Delete Selected Events</button>
+              <button class="action-button" id="add-events">Add New Events</button>
+            </div>
+          </div>
+        `;
+    const node = createNode('div', html);
+    node.querySelector("#delete-events").onclick = function() {
+        const events_to_delete = Array.from(node.querySelectorAll("input:checked")).map(e => parseInt(e.dataset.eventId));
+        alert("Delete: " +  events_to_delete);
+        console.log(node);
+        console.log(node.querySelectorAll("input:checked"));
+        console.log(events_to_delete);
+        PopulateAdminEvents(admin_state, events_div)
+    };
+    node.querySelector("#add-events").onclick = function() {
+        alert("add");
+    };
+    events_div.appendChild(node);
+}
+

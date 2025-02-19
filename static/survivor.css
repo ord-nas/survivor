@@ -9,6 +9,10 @@ body {
   margin: 0 auto; /* Center the container */
 }
 
+.container.full-width {
+    width: 100%;
+}
+
 /* Navigation Bar Styling */
 nav {
   position: sticky; /* Make the nav bar sticky */
@@ -48,7 +52,7 @@ li a:hover:not(.active) {
 /* Vertical Navigation Bar */
 .vertical-nav {
   float: left;
-  width: 20%; /* Adjust as needed */
+  width: 200px; /* Adjust as needed */
   padding: 20px;
   padding-left: 0px; /* Added padding-left */
   padding-top: 5px; /* Added padding-top */
@@ -78,7 +82,7 @@ li a:hover:not(.active) {
 .content-with-vertical-nav {
   padding: 20px;
   padding-top: 10px;
-  margin-left: 20%; /* Adjust as needed to match vertical nav width */
+  margin-left: 200px; /* Adjust as needed to match vertical nav width */
 }
 
 /* Center the image */
@@ -269,6 +273,51 @@ li a:hover:not(.active) {
 .vote-table tr:nth-child(1) {
   background-color: #bae0ba;
   border-bottom: 3px solid black;
+}
+
+.admin-table {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.admin-table th {
+  border: 1px solid black;
+  border-collapse: collapse;
+  vertical-align: bottom;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  max-width: 600px;
+  word-wrap: break-word;
+}
+
+.admin-table td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+  padding: 5px;
+  max-width: 600px;
+  word-wrap: break-word;
+}
+
+.admin-table tr:hover {
+  background-color: #FFCCCB;
+}
+
+.admin-table tr:nth-child(1) {
+  background-color: #bae0ba;
+  border-bottom: 3px solid black;
+}
+
+.admin-table input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+}
+
+.admin-table tr:has(input[type=checkbox]:checked) {
+  background-color: #ff4d4a;
 }
 
 th.rotate {
@@ -510,6 +559,11 @@ th.rotate {
   border: 2px solid #04AA6D;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.action-button.negative {
+  border: 2px solid #ff4d4a;
+  background-color: #ff4d4a;
 }
 
 .action-button:hover {

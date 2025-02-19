@@ -86,6 +86,22 @@ def admin():
     cookies = request.cookies
     conn = db.initialize(get_db_filename(request))
     if db.is_admin(conn, cookies):
-        return send_file("admin.html")
+        response = send_file("admin.html")
     else:
-        return abort(403)
+        response = abort(403)
+    conn.close()
+    return response
+
+
+@app.route('/admin_state', methods=['GET'])
+def get_admin_state():
+    cookies = request.cookies
+    conn = db.initialize(get_db_filename(request))
+    if db.is_admin(conn, cookies):
+        as_json = json.dumps(db.fetch_admin_state(conn),
+                             indent=4)
+        response = Response(response=as_json, status=200, mimetype="application/json")
+    else:
+        response = abort(403)
+    conn.close()
+    return response

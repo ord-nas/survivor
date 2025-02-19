@@ -18,7 +18,7 @@
     <img src="https://upload.wikimedia.org/wikipedia/en/7/76/Survivor_47_logo.webp" alt="Survivor 47 Logo">
   </div>
 
-  <div class="container">
+  <div class="container full-width">
     <nav>
       <ul id="navigation-bar">
         <li><a href="s/standings.html">Standings</a></li>
@@ -32,9 +32,42 @@
       </ul>
     </nav>
 
-    <div class="content">
+    <div class="vertical-nav">
+      <ul id="admin-toc">
+                  <li><a href="#events-header">Events</a></li>
+                  <li><a href="#players-header">Players</a></li>
+                  <li><a href="#invitations-header">Invitations</a></li>
+      </ul>
+    </div>
+
+    <div class="content-with-vertical-nav">
         <h1>Admin</h1>
-        <div id="admin"></div>
+        <div id="admin">
+            <h2 id="events-header">Events</h2>
+            <div id="events-content"></div>
+            <h2 id="players-header">Players</h2>
+            <div id="players-content">
+                <table id="admin-players-table" class="admin-table">
+                    <tr>
+                        <th></th>
+                        <th>CreationTimestamp</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                    </tr>
+                </table>
+            </div>
+            <h2 id="invitations-header">Account Creation Invitations</h2>
+            <div id="invitations-content">
+                <table id="admin-invitations-table" class="admin-table">
+                    <tr>
+                        <th></th>
+                        <th>CreationTimestamp</th>
+                        <th>InviteCode</th>
+                        <th>InviteURL</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
   </div>
 
@@ -42,6 +75,15 @@
     // Execute on page load
     window.onload = function() {
         HandleDbSelection();
+
+        GetAdminState()
+                .then(admin_state => {
+                console.log(admin_state);
+                    var events_div = document.getElementById("events-content");
+                    var players_div = document.getElementById("players-content");
+                    var invitations_div = document.getElementById("invitations-content");
+                    PopulateAdminEvents(admin_state, events_div);
+                });
     };
   </script>
 
