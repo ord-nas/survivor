@@ -1638,8 +1638,8 @@ function InstallLoginLogic({
                     identifier_error_elm.innerText = "";
                     password_error_elm.innerText = "";
                     if (result.status === "success") {
-                        document.cookie = `username=${result.account.username};path=/`;
-                        document.cookie = `session_id=${result.account.session_id};path=/`;
+                        document.cookie = `username=${result.account.username};expires=01 Jan 3000 00:00:00 UTC;path=/;`;
+                        document.cookie = `session_id=${result.account.session_id};expires=01 Jan 3000 00:00:00 UTC;path=/;`;
                         window.location.href = 'account.html';
                     } else {
                         if ("identifier_message" in result) {
@@ -1772,8 +1772,8 @@ function InstallRegisterLogic({
                     password_error_elm.innerText = "";
                     password_confirm_error_elm.innerText = "";
                     if (result.status === "success") {
-                        document.cookie = `username=${result.account.username};path=/`;
-                        document.cookie = `session_id=${result.account.session_id};path=/`;
+                        document.cookie = `username=${result.account.username};expires=01 Jan 3000 00:00:00 UTC;path=/;`;
+                        document.cookie = `session_id=${result.account.session_id};expires=01 Jan 3000 00:00:00 UTC;path=/;`;
                         window.location.href = 'account.html';
                     } else {
                         if ("username_message" in result) {
