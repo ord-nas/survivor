@@ -44,6 +44,7 @@
         <h1>Admin</h1>
         <div id="admin">
             <h2 id="events-header">Events</h2>
+            <input type="checkbox" class="large-check" id="vote-events-check" /> Include vote prediction events.
             <div id="events-content"></div>
             <h2 id="players-header">Players</h2>
             <div id="players-content">
@@ -76,14 +77,15 @@
     window.onload = function() {
         HandleDbSelection();
 
-        GetAdminState()
-                .then(admin_state => {
-                console.log(admin_state);
-                    var events_div = document.getElementById("events-content");
-                    var players_div = document.getElementById("players-content");
-                    var invitations_div = document.getElementById("invitations-content");
-                    PopulateAdminEvents(admin_state, events_div);
-                });
+        var vote_events_checkbox = document.getElementById("vote-events-check");
+        var events_div = document.getElementById("events-content");
+        var players_div = document.getElementById("players-content");
+        var invitations_div = document.getElementById("invitations-content");
+        var table_manager = new AdminTableManager(vote_events_checkbox,
+                                                  events_div,
+                                                  players_div,
+                                                  invitations_div);
+        table_manager.Reload();
     };
   </script>
 

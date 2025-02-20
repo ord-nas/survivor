@@ -289,8 +289,6 @@ li a:hover:not(.active) {
   padding-right: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
-  max-width: 600px;
-  word-wrap: break-word;
 }
 
 .admin-table td {
@@ -298,8 +296,6 @@ li a:hover:not(.active) {
   border-collapse: collapse;
   text-align: center;
   padding: 5px;
-  max-width: 600px;
-  word-wrap: break-word;
 }
 
 .admin-table tr:hover {
@@ -311,13 +307,13 @@ li a:hover:not(.active) {
   border-bottom: 3px solid black;
 }
 
-.admin-table input[type=checkbox] {
-  width: 20px;
-  height: 20px;
-}
-
 .admin-table tr:has(input[type=checkbox]:checked) {
   background-color: #ff4d4a;
+}
+
+input[type=checkbox].large-check {
+  width: 20px;
+  height: 20px;
 }
 
 th.rotate {

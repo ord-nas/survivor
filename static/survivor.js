@@ -1833,41 +1833,77 @@ function MaybeAddAdminLink(user_state, navigation_bar) {
     }
 }
 
-function PopulateAdminEvents(admin_state, events_div) {
-    events_div.innerHTML = "";
-    function GetEventRow(event) {
-        var props = [];
-        for (const [key, value] of Object.entries(event)) {
-            if (key === "Id" ||
-                key === "CreationTimestamp" ||
-                key === "Episode" ||
-                key === "EventName") {
-                continue;
-            }
-            if (typeof value === 'number') {
-                props.push(`<strong>${key}</strong>=${value}`);
-            } else {
-                props.push(`<strong>${key}</strong>="${value}"`);
-            }
+class AdminTableManager {
+    constructor(vote_events_checkbox,
+                events_div,
+                players_div,
+                invitations_div) {
+        this.vote_events_checkbox = vote_events_checkbox;
+        this.events_div = events_div;
+        this.players_div = players_div;
+        this.invitations_div = invitations_div;
+        this.admin_state = null;
+
+        const self = this;
+        this.vote_events_checkbox.addEventListener("change",  function(event) {
+            self.Redraw();
+        });
+    }
+
+    Reload() {
+        GetAdminState()
+            .then(admin_state => {
+                console.log(admin_state);
+                this.admin_state = admin_state;
+                this.Redraw();
+            });
+    }
+
+    Redraw() {
+        if (this.admin_state !== null) {
+            this.PopulateAdminEvents();
         }
-        return `
+    }
+
+    PopulateAdminEvents() {
+        this.events_div.innerHTML = "";
+        function GetEventRow(event) {
+            var props = [];
+            for (const [key, value] of Object.entries(event)) {
+                if (key === "Id" ||
+                    key === "CreationTimestamp" ||
+                    key === "Episode" ||
+                    key === "EventName") {
+                    continue;
+                }
+                if (typeof value === 'number') {
+                    props.push(`<strong>${key}</strong>=${value}`);
+                } else {
+                    props.push(`<strong>${key}</strong>="${value}"`);
+                }
+            }
+            props.sort();
+            return `
                   <tr>
-                    <td><input type="checkbox" data-event-id="${event.Id}" /></td>
+                    <td><input type="checkbox" class="large-check" data-event-id="${event.Id}" /></td>
                     <td>${event.Id}</td>
                     <td>${event.CreationTimestamp}</td>
                     <td>${event.Episode}</td>
                     <td>${event.EventName}</td>
-                    <td>${props.join(", ")}</td>
+                    <td>${props.join(",<br/>")}</td>
                   </tr>
                 `;
-    }
-    const rows = admin_state.events
-          .filter(e => e.EventName !== "Predict vote out" &&
-                       e.EventName !== "Select Sole Survivor" &&
-                       e.EventName !== "Set episode metadata")
-          .map(GetEventRow)
-          .join("\n");
-    const html = `
+        }
+        var excluded_events = new Set(["Set episode metadata"]);
+        if (!this.vote_events_checkbox.checked) {
+            excluded_events.add("Predict vote out");
+            excluded_events.add("Select Sole Survivor");
+        }
+        const rows = this.admin_state.events
+              .filter(e => !excluded_events.has(e.EventName))
+              .map(GetEventRow)
+              .join("\n");
+        const html = `
           <table id="admin-events-table" class="admin-table">
                 <tr>
                   <th></th>
@@ -1887,24 +1923,22 @@ function PopulateAdminEvents(admin_state, events_div) {
             </div>
           </div>
         `;
-    const node = createNode('div', html);
-    node.querySelector("#delete-events").onclick = function() {
-        const events_to_delete = Array.from(node.querySelectorAll("input:checked")).map(e => parseInt(e.dataset.eventId));
-        DeleteEvents(events_to_delete).then(response => {
-            if (response.status !== "success") {
-                console.log(response);
-                alert("Error, check console");
-            } else {
-                GetAdminState()
-                    .then(new_admin_state => {
-                        PopulateAdminEvents(new_admin_state, events_div);
-                    });
-            }
-        });
-    };
-    node.querySelector("#add-events").onclick = function() {
-        alert("add");
-    };
-    events_div.appendChild(node);
+        const node = createNode('div', html);
+        const self = this;
+        node.querySelector("#delete-events").onclick = function() {
+            const events_to_delete = Array.from(node.querySelectorAll("input:checked")).map(e => parseInt(e.dataset.eventId));
+            DeleteEvents(events_to_delete).then(response => {
+                if (response.status !== "success") {
+                    console.log(response);
+                    alert("Error, check console");
+                } else {
+                    self.Reload();
+                }
+            });
+        };
+        node.querySelector("#add-events").onclick = function() {
+            alert("add");
+        };
+        this.events_div.appendChild(node);
+    }
 }
-
