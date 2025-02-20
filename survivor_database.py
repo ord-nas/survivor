@@ -492,3 +492,27 @@ def fetch_admin_state(conn):
     )
 
     return data
+
+def delete_events(conn, data):
+    """Deletes the given events."""
+
+    if "events" not in data:
+        return { "status": "error", "message": "Invalid request, missing events." }
+
+    events = data["events"]
+
+    if not isinstance(events, list):
+        return { "status": "error", "message": "Invalid request, events format is invalid." }
+    if len(events) < 1:
+        return { "status": "error", "message": "Invalid request, events format is invalid." }
+    if not all(isinstance(e, int) for e in events):
+        return { "status": "error", "message": "Invalid request, events format is invalid." }
+
+    placeholder_clauses = " OR ".join(["Id = ?"] * len(events))
+    sql = f"DELETE FROM events WHERE {placeholder_clauses}"
+    print(sql)
+    cursor = conn.cursor()
+    cursor.execute(sql, events)
+    conn.commit()
+
+    return { "status": "success" }

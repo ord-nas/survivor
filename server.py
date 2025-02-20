@@ -105,3 +105,18 @@ def get_admin_state():
         response = abort(403)
     conn.close()
     return response
+
+
+@app.route('/delete_events', methods=['POST'])
+def delete_events():
+    cookies = request.cookies
+    content = request.json
+    conn = db.initialize(get_db_filename(request))
+    if db.is_admin(conn, cookies):
+        as_json = json.dumps(db.delete_events(conn, content),
+                             indent=4)
+        response = Response(response=as_json, status=200, mimetype="application/json")
+    else:
+        response = abort(403)
+    conn.close()
+    return response

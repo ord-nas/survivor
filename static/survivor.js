@@ -1460,6 +1460,27 @@ function SubmitVotes(votes, episode, player) {
   });
 }
 
+function DeleteEvents(events) {
+  return fetch('/delete_events', {
+    method: "POST",
+    body: JSON.stringify({
+        events: events,
+    }),
+    headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    }
+  }).then(response => {
+      if (!response.ok) {
+          alert("Server error");
+          throw new Error('Network response was not ok');
+      }
+      return response.json(); // Parse the response as JSON
+  }).catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+      // Handle the error appropriately (e.g., display an error message)
+  });
+}
+
 function RegenerateVoteDivs(state, user_state, score_stream, survivor_statuses, list) {
     const events = state.events;
 
@@ -1842,7 +1863,8 @@ function PopulateAdminEvents(admin_state, events_div) {
     }
     const rows = admin_state.events
           .filter(e => e.EventName !== "Predict vote out" &&
-                  e.EventName !== "Select Sole Survivor")
+                       e.EventName !== "Select Sole Survivor" &&
+                       e.EventName !== "Set episode metadata")
           .map(GetEventRow)
           .join("\n");
     const html = `
@@ -1868,11 +1890,17 @@ function PopulateAdminEvents(admin_state, events_div) {
     const node = createNode('div', html);
     node.querySelector("#delete-events").onclick = function() {
         const events_to_delete = Array.from(node.querySelectorAll("input:checked")).map(e => parseInt(e.dataset.eventId));
-        alert("Delete: " +  events_to_delete);
-        console.log(node);
-        console.log(node.querySelectorAll("input:checked"));
-        console.log(events_to_delete);
-        PopulateAdminEvents(admin_state, events_div)
+        DeleteEvents(events_to_delete).then(response => {
+            if (response.status !== "success") {
+                console.log(response);
+                alert("Error, check console");
+            } else {
+                GetAdminState()
+                    .then(new_admin_state => {
+                        PopulateAdminEvents(new_admin_state, events_div);
+                    });
+            }
+        });
     };
     node.querySelector("#add-events").onclick = function() {
         alert("add");
