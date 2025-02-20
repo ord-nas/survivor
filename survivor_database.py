@@ -484,7 +484,7 @@ def fetch_admin_state(conn):
         "players",
         'SELECT CreationTimestamp, Username, Email FROM players '
         'ORDER BY LOWER(Username)',
-        columns=["CreationTimestsamp", "Username", "Email"]
+        columns=["CreationTimestamp", "Username", "Email"]
     )
     data["invitations"] = get_table_contents(
         "invitations",
