@@ -1481,6 +1481,27 @@ function DeleteEvents(events) {
   });
 }
 
+function DeletePlayers(players) {
+  return fetch('/delete_players', {
+    method: "POST",
+    body: JSON.stringify({
+        players: players,
+    }),
+    headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    }
+  }).then(response => {
+      if (!response.ok) {
+          alert("Server error");
+          throw new Error('Network response was not ok');
+      }
+      return response.json(); // Parse the response as JSON
+  }).catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+      // Handle the error appropriately (e.g., display an error message)
+  });
+}
+
 function RegenerateVoteDivs(state, user_state, score_stream, survivor_statuses, list) {
     const events = state.events;
 
@@ -1862,6 +1883,7 @@ class AdminTableManager {
     Redraw() {
         if (this.admin_state !== null) {
             this.PopulateAdminEvents();
+            this.PopulateAdminPlayers();
         }
     }
 
@@ -1940,5 +1962,53 @@ class AdminTableManager {
             alert("add");
         };
         this.events_div.appendChild(node);
+    }
+
+    PopulateAdminPlayers() {
+        this.players_div.innerHTML = "";
+        function GetPlayerRow(player) {
+            return `
+                  <tr>
+                    <td><input type="checkbox" class="large-check" data-player-name="${player.Username}" /></td>
+                    <td>${player.CreationTimestamp}</td>
+                    <td>${player.Username}</td>
+                    <td>${player.Email}</td>
+                  </tr>
+                `;
+        }
+        const rows = this.admin_state.players
+              .map(GetPlayerRow)
+              .join("\n");
+        const html = `
+          <table id="admin-players-table" class="admin-table">
+                <tr>
+                  <th></th>
+                  <th>CreationTimestamp</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                </tr>
+            ${rows}
+          </table>
+          <br/>
+          <div class="button-container">
+            <div>
+              <button class="action-button negative" id="delete-players">Delete Selected Players</button>
+            </div>
+          </div>
+        `;
+        const node = createNode('div', html);
+        const self = this;
+        node.querySelector("#delete-players").onclick = function() {
+            const players_to_delete = Array.from(node.querySelectorAll("input:checked")).map(e => e.dataset.playerName);
+            DeletePlayers(players_to_delete).then(response => {
+                if (response.status !== "success") {
+                    console.log(response);
+                    alert("Error, check console");
+                } else {
+                    self.Reload();
+                }
+            });
+        };
+        this.players_div.appendChild(node);
     }
 }

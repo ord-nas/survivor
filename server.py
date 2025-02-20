@@ -120,3 +120,18 @@ def delete_events():
         response = abort(403)
     conn.close()
     return response
+
+
+@app.route('/delete_players', methods=['POST'])
+def delete_players():
+    cookies = request.cookies
+    content = request.json
+    conn = db.initialize(get_db_filename(request))
+    if db.is_admin(conn, cookies):
+        as_json = json.dumps(db.delete_players(conn, content),
+                             indent=4)
+        response = Response(response=as_json, status=200, mimetype="application/json")
+    else:
+        response = abort(403)
+    conn.close()
+    return response

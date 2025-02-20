@@ -516,3 +516,25 @@ def delete_events(conn, data):
     conn.commit()
 
     return { "status": "success" }
+
+def delete_players(conn, data):
+    """Deletes the given players."""
+
+    if "players" not in data:
+        return { "status": "error", "message": "Invalid request, missing players." }
+
+    players = data["players"]
+
+    if not isinstance(players, list):
+        return { "status": "error", "message": "Invalid request, players format is invalid." }
+    if len(players) < 1:
+        return { "status": "error", "message": "Invalid request, players format is invalid." }
+
+    placeholder_clauses = " OR ".join(["Username = ?"] * len(players))
+    sql = f"DELETE FROM players WHERE {placeholder_clauses}"
+    print(sql)
+    cursor = conn.cursor()
+    cursor.execute(sql, players)
+    conn.commit()
+
+    return { "status": "success" }
