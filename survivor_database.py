@@ -107,6 +107,11 @@ def hide_open_voting_round(events):
             if (e["EventName"] not in events_to_hide or
                 e["Episode"] <= voting_closed_episode)]
 
+def hide_missing_players(events, players):
+    players_set = set(players)
+    return [e for e in events
+            if "Player" not in e or e["Player"] in players_set]
+
 def fetch_state(conn):
     """Fetches survivor state and returns it as a dictionary."""
 
@@ -125,18 +130,6 @@ def fetch_state(conn):
 
     # Convert dictionary.
     data = {}
-    data["events"] = hide_open_voting_round(get_table_contents(
-        "events",
-        "SELECT * FROM events ORDER BY Episode, Id"
-    ))
-    data["survivors"] = get_table_contents(
-        "survivors",
-        "SELECT * FROM survivors ORDER BY Name"
-    )
-    data["tribes"] = get_table_contents(
-        "tribes",
-        "SELECT * FROM tribes ORDER BY Name"
-    )
     data["players"] = [
         p["Username"]
         for p in get_table_contents(
@@ -146,6 +139,20 @@ def fetch_state(conn):
             'ORDER BY LOWER(Username)',
         )
     ]
+    data["events"] = get_table_contents(
+        "events",
+        "SELECT * FROM events ORDER BY Episode, Id"
+    )
+    data["events"] = hide_open_voting_round(data["events"])
+    data["events"] = hide_missing_players(data["events"], data["players"])
+    data["survivors"] = get_table_contents(
+        "survivors",
+        "SELECT * FROM survivors ORDER BY Name"
+    )
+    data["tribes"] = get_table_contents(
+        "tribes",
+        "SELECT * FROM tribes ORDER BY Name"
+    )
 
     return data
 
