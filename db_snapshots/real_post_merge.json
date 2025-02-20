@@ -868,6 +868,11 @@
             "Username": "Alex",
             "Email": "alex.chibly@gmail.com",
             "PasswordHash": "$pbkdf2-sha256$29000$T8m5l1JKCSHEuJcSIoTQOg$.UxOuUsjjhDBpw6.caByCh3X/qMZdcTcRGILGx98fUU"
+        },
+        {
+            "Username": "admin",
+            "Email": "admin@admin.com",
+            "PasswordHash": "$pbkdf2-sha256$29000$qHWutbZWaq31fi8lRAhB6A$4OfqfYUz9.J0wGv7mqJJCfD0qeNDUV2m9cG1oEQntPw"
         }
     ],
     "invitations": [

@@ -39,5 +39,10 @@ for (email, player) in email_to_player.items():
         "Email": email,
         "PasswordHash": pbkdf2_sha256.hash(player),
     })
+d.append({
+    "Username": "admin",
+    "Email": "admin@admin.com",
+    "PasswordHash": pbkdf2_sha256.hash("admin")
+})
 
 print(json.dumps(d, indent=4))
