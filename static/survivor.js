@@ -1660,17 +1660,11 @@ function InstallLoginLogic({
     forgot_password_elm.addEventListener("click", function(event) {
         event.preventDefault();  // Prevent the default link action
 
-        const email = identifier_elm.value;
-
         // Clear previous errors
         identifier_error_elm.innerText = "";
         password_error_elm.innerText = "";
 
-        if (email === "" || !EMAIL_REGEX.test(email)) {
-            identifier_error_elm.innerText = "You must enter an email address to get a password reset link.";
-        } else {
-            alert("Password reset not implemented yet, oops!");
-        }
+        alert("Okay so listen, we haven't really implemented a proper password reset flow yet, but if you talk to Dawson or Sandro about this they can manually reset your account password.");
     });
 }
 
